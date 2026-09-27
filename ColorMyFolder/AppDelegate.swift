@@ -84,14 +84,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func askForDirectory() {
         let open = NSOpenPanel()
         open.title = "ColorMyFolder"
-        open.message = String(localized: "Where should ColorMyFolder keep the list of colors and colored folders? Choose a folder you sync between your Macs, and both will have the same colors.")
+        open.message = String(localized: "Where should ColorMyFolder keep its list of colors and colored folders? It creates a hidden .ColorMyFolder folder in the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.")
         open.prompt = String(localized: "Choose")
         open.canChooseFiles = false
         open.canChooseDirectories = true
         open.canCreateDirectories = true
         NSApp.activate()
-        if open.runModal() == .OK, let url = open.url {
-            store.directory = url
+        guard open.runModal() == .OK, let url = open.url else { return }
+        let directory = URL(fileURLWithPath: Logic.storeDirectory(forChosen: url.path))
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            store.directory = directory
+        } catch {
+            log.error("Cannot create \(directory.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
         }
     }
 

@@ -34,7 +34,10 @@ APP="build/dd/Build/Products/Release/ColorMyFolder.app"
 pkill -x ColorMyFolder || true
 mkdir -p "$TARGET/ColorMyFolder.app"
 rsync -a --delete "$APP/" "$TARGET/ColorMyFolder.app/"
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$TARGET/ColorMyFolder.app"
+LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+# The quick action opens the app by bundle ID — keep only the installed copy registered.
+"$LSREGISTER" -u "$PWD/$APP" 2>/dev/null || true
+"$LSREGISTER" -f "$TARGET/ColorMyFolder.app"
 /System/Library/CoreServices/pbs -update
 open "$TARGET/ColorMyFolder.app"
 echo "Installed: $TARGET/ColorMyFolder.app"

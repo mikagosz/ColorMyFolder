@@ -13,6 +13,10 @@ check(Logic.storedPath("/Volumes/X", home: home) == "/Volumes/X", "outside home 
 check(Logic.absolutePath("~/Desktop/A", home: "/home/other") == "/home/other/Desktop/A", "~ expands on the other Mac")
 check(Logic.absolutePath("~", home: home) == home, "bare ~")
 
+check(Logic.storeDirectory(forChosen: "/home/someone/Sync") == "/home/someone/Sync/.ColorMyFolder", "list goes into a hidden folder in the chosen place")
+check(Logic.storeDirectory(forChosen: "/home/someone/Sync/") == "/home/someone/Sync/.ColorMyFolder", "trailing slash")
+check(Logic.storeDirectory(forChosen: "/home/someone/Sync/.ColorMyFolder") == "/home/someone/Sync/.ColorMyFolder", "choosing the hidden folder itself")
+
 check(!Logic.needsApply(forced: false, lastFull: true, full: true, hasCustomIcon: true), "nothing changed — no redraw")
 check(Logic.needsApply(forced: false, lastFull: false, full: true, hasCustomIcon: true), "folder filled up — redraw")
 check(Logic.needsApply(forced: false, lastFull: true, full: true, hasCustomIcon: false), "icon flag missing (after a sync) — redraw")

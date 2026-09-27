@@ -19,6 +19,17 @@ enum Logic {
         return absolute
     }
 
+    /// Hidden folder the app creates for its list inside the folder the user chose.
+    static let storeFolderName = ".ColorMyFolder"
+
+    /// The user picks a place; the list lives in `.ColorMyFolder` inside it. Picking that
+    /// hidden folder itself (e.g. with ⌘⇧. in the open panel) uses it as is.
+    static func storeDirectory(forChosen chosen: String) -> String {
+        let trimmed = chosen.hasSuffix("/") && chosen.count > 1 ? String(chosen.dropLast()) : chosen
+        if (trimmed as NSString).lastPathComponent == storeFolderName { return trimmed }
+        return (trimmed as NSString).appendingPathComponent(storeFolderName)
+    }
+
     static func absolutePath(_ stored: String, home: String) -> String {
         if stored == "~" { return home }
         if stored.hasPrefix("~/") { return home + stored.dropFirst(1) }

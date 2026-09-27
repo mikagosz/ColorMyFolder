@@ -81,12 +81,12 @@
         }
       }
     },
-    "Where should ColorMyFolder keep the list of colors and colored folders? Choose a folder you sync between your Macs, and both will have the same colors.": {
+    "Where should ColorMyFolder keep its list of colors and colored folders? It creates a hidden .ColorMyFolder folder in the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Gdzie trzymać listę kolorów i pokolorowanych folderów? Wybierz folder synchronizowany między Makami, a oba będą miały te same kolory."
+            "value": "Gdzie trzymać listę kolorów i pokolorowanych folderów? ColorMyFolder utworzy w wybranym miejscu ukryty folder .ColorMyFolder. Wybierz folder synchronizowany między Makami, a oba będą miały te same kolory."
           }
         }
       }

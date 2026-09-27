@@ -46,7 +46,8 @@ does not dismiss it.
 ## Your colors on more than one Mac
 
 On first launch ColorMyFolder asks where to keep its list of saved colors and colored
-folders (one JSON file). Choose a folder you sync between your Macs — iCloud Drive, Syncthing
+folders. It creates a hidden `.ColorMyFolder` folder in the place you choose and keeps one
+JSON file there. Choose a folder you sync between your Macs — iCloud Drive, Syncthing
 or anything else — and every Mac gets the same dots and the same colored folders. Paths are
 stored relative to your home folder, so different account names are fine. If a sync tool
 carries the folder's icon file but not the Finder flag that turns it on, ColorMyFolder on the
@@ -91,8 +92,8 @@ The logic check can also be run on its own, without Xcode: `./Tests/check.sh`.
 1. Give your folders their normal look back with **Restore System Look** (the custom icon stays
    on a folder otherwise).
 2. Quit ColorMyFolder in Activity Monitor and remove it from *System Settings → General → Login Items*.
-3. Delete `ColorMyFolder.app` and `~/Library/Services/ColorMyFolder.workflow`, and the list file
-   `ColorMyFolder.json` from the folder you chose on first launch.
+3. Delete `ColorMyFolder.app`, `~/Library/Services/ColorMyFolder.workflow` and the hidden
+   `.ColorMyFolder` folder in the place you chose on first launch.
 
 ## Privacy
 
