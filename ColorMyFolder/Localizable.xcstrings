@@ -251,6 +251,16 @@
         }
       }
     },
+    "Version %@": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wersja %@"
+          }
+        }
+      }
+    },
     "Where should ColorMyFolder keep its list of colors and colored folders? It creates a hidden .ColorMyFolder folder in the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.": {
       "localizations": {
         "pl": {

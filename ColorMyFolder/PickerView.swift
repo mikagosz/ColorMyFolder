@@ -90,11 +90,20 @@ struct PickerView: View {
             }
             .fixedSize()
 
-            ColorPicker("Other Color", selection: $custom, supportsOpacity: false)
-                .fixedSize()
+            HStack(alignment: .firstTextBaseline) {
+                ColorPicker("Other Color", selection: $custom, supportsOpacity: false)
+                    .fixedSize()
+                Spacer()
+                Text(Self.version).font(.caption).foregroundStyle(.tertiary)
+            }
         }
         .padding(16)
         .frame(minWidth: 340, alignment: .leading)
+    }
+
+    static var version: String {
+        let number = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        return String(localized: "Version \(number)")
     }
 
     @ViewBuilder
@@ -114,6 +123,7 @@ struct PickerView: View {
 
     private var settings: some View {
         VStack(alignment: .leading, spacing: 10) {
+            Text("ColorMyFolder · \(Self.version)").font(.caption).foregroundStyle(.secondary)
             Text("List location").font(.headline)
             Text(storePath.isEmpty ? String(localized: "Not set") : storePath)
                 .font(.callout).foregroundStyle(.secondary)
