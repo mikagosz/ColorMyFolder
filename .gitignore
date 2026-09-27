@@ -4,3 +4,5 @@ DerivedData/
 *.xcuserstate
 xcuserdata/
 .install-dir
+# Generated at build time by Tools/make-icon.swift from macOS folder parts
+ColorMyFolder/Assets.xcassets/

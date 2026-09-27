@@ -14,6 +14,7 @@ TARGET="$HOME/Applications"
 if [ -f .install-dir ]; then TARGET="$(head -n 1 .install-dir)"; fi
 
 ./Tests/check.sh
+swift Tools/make-icon.swift
 SIGN=()
 PROJECT_ID="$(grep -m1 -o 'CODE_SIGN_IDENTITY = [0-9A-F]*' ColorMyFolder.xcodeproj/project.pbxproj | cut -d' ' -f3)"
 if [ -n "${CODE_SIGN_IDENTITY:-}" ]; then

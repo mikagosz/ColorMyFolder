@@ -74,7 +74,7 @@ cd ColorMyFolder
 ./build.sh
 ```
 
-The script runs the logic check, builds the app, installs it to `~/Applications`, adds the
+The script runs the logic check, draws the app icon from the macOS folder parts, builds the app, installs it to `~/Applications`, adds the
 quick action and starts ColorMyFolder. It signs the app ad hoc, which is all you need for an
 app you built yourself. To install into a different folder, put its path on the first line of
 a file named `.install-dir` in the project folder.
@@ -108,6 +108,6 @@ its own list file in the folder you chose, and its quick action in `~/Library/Se
 
 The source code is released under the [MIT licence](LICENSE).
 
-The application artwork is not covered by it — see [NOTICE](NOTICE). The folder parts and the
-`paintpalette` symbol are Apple's; they are read from macOS at run time and are not part of
-this repository.
+The application artwork is not covered by it — see [NOTICE](NOTICE). The folder parts (also used
+for the app icon, which `Tools/make-icon.swift` draws at build time) and the `paintpalette`
+symbol are Apple's; they are read from macOS and are not part of this repository.

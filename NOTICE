@@ -11,5 +11,6 @@ redistributed or adapted — in a fork or anywhere else — without written
 permission. If you fork this project, replace the icon with your own.
 
 The folder parts (back flap, front flap, paper sheet) and the "paintpalette"
-symbol belong to Apple. They are read from macOS at run time and are not part of
+symbol belong to Apple. They are read from macOS when the app runs or is built
+(the app icon is drawn from them by Tools/make-icon.swift) and are not part of
 this repository.
