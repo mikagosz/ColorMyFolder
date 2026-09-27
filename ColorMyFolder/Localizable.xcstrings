@@ -1,0 +1,96 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Choose": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz"
+          }
+        }
+      }
+    },
+    "Color Folder": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pokoloruj"
+          }
+        }
+      }
+    },
+    "Delete Dot": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuń kropkę"
+          }
+        }
+      }
+    },
+    "Folders: %lld": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foldery: %lld"
+          }
+        }
+      }
+    },
+    "No saved colors yet — pick a color below and click “Save Dot”.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brak zapisanych kolorów — wybierz kolor niżej i kliknij „Zapisz kropkę”."
+          }
+        }
+      }
+    },
+    "Other Color": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inny kolor"
+          }
+        }
+      }
+    },
+    "Restore System Look": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Przywróć systemowy"
+          }
+        }
+      }
+    },
+    "Save Dot": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zapisz kropkę"
+          }
+        }
+      }
+    },
+    "Where should ColorMyFolder keep the list of colors and colored folders? Choose a folder you sync between your Macs, and both will have the same colors.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gdzie trzymać listę kolorów i pokolorowanych folderów? Wybierz folder synchronizowany między Makami, a oba będą miały te same kolory."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
