@@ -21,6 +21,14 @@ has something in it.
 
 ---
 
+## Screenshot
+
+<p align="center">
+  <img src="docs/assets/colormyfolder-macbook.png" width="820" alt="The ColorMyFolder window with its saved colors, opened from Finder's Quick Actions menu on a folder">
+</p>
+
+---
+
 ## How to use it
 
 1. In Finder, right-click a folder (or several) → **Quick Actions → ColorMyFolder**.
