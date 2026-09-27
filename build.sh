@@ -2,11 +2,14 @@
 # Builds ColorMyFolder (Release), installs it and starts it.
 #
 # Installs to ~/Applications unless the untracked file .install-dir names another folder
-# (one line, a path). Signs with the identity set in the Xcode project when that certificate
-# is in your keychain, otherwise ad hoc. CODE_SIGN_IDENTITY in the environment overrides both.
+# (one line, a path); --no-open installs without starting the app. Signs with the identity
+# set in the Xcode project when that certificate is in your keychain, otherwise ad hoc.
+# CODE_SIGN_IDENTITY in the environment overrides both.
 set -euo pipefail
 cd "$(dirname "$0")"
 
+OPEN=1
+if [ "${1:-}" = "--no-open" ]; then OPEN=0; fi
 TARGET="$HOME/Applications"
 if [ -f .install-dir ]; then TARGET="$(head -n 1 .install-dir)"; fi
 
@@ -39,6 +42,6 @@ LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchSe
 "$LSREGISTER" -u "$PWD/$APP" 2>/dev/null || true
 "$LSREGISTER" -f "$TARGET/ColorMyFolder.app"
 /System/Library/CoreServices/pbs -update
-open "$TARGET/ColorMyFolder.app"
+if [ "$OPEN" = 1 ]; then open "$TARGET/ColorMyFolder.app"; fi
 echo "Installed: $TARGET/ColorMyFolder.app"
 codesign -dvv "$TARGET/ColorMyFolder.app" 2>&1 | grep -m1 -E "^Authority=|^Signature=adhoc" || true

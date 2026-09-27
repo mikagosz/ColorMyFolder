@@ -30,6 +30,10 @@ has something in it.
 3. **Save Dot** keeps the current color in the palette; right-click a dot → **Delete Dot**
    removes it. **Restore System Look** gives the folder back its normal icon.
 
+You can also open ColorMyFolder from Applications (or Spotlight) and use **Choose Folders…**
+in its window. The gear in the corner shows where the list of colors is kept and lets you
+move it.
+
 The window stays open until you close it or pick a color, so a stray click on the desktop
 does not dismiss it.
 
@@ -53,7 +57,7 @@ stored relative to your home folder, so different account names are fine. If a s
 carries the folder's icon file but not the Finder flag that turns it on, ColorMyFolder on the
 other Mac simply redraws the icon.
 
-Opening the app again (from Finder or Spotlight) lets you move the list somewhere else.
+To move the list somewhere else later, use the gear in the ColorMyFolder window.
 
 ## Requirements
 

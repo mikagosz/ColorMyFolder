@@ -7,9 +7,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var colorizer = Colorizer(store: store)
     private lazy var watcher = Watcher { [weak self] in self?.somethingChanged() }
     private var panel: NSPanel?
+    /// How this launch started — decides whether a window opens on its own.
+    private enum Launch { case normal, atLogin, withFolders }
+    private var launch = Launch.normal
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent else { return }
+        if event.eventID == AEEventID(kAEOpenDocuments) {
+            launch = .withFolders
+        } else if event.eventID == AEEventID(kAEOpenApplication),
+                  event.paramDescriptor(forKeyword: AEKeyword(keyAEPropData))?.enumCodeValue == OSType(keyAELaunchedAsLogInItem) {
+            launch = .atLogin
+        }
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if store.directory == nil { askForDirectory() }
+        if store.directory == nil && launch != .atLogin { askForDirectory() }
         store.reload()
 
         QuickAction.install()
@@ -17,6 +30,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         colorizer.refreshAll()
         rewatch()
+
+        // Started from the app icon (not at login, not from Finder with folders): open the window.
+        if launch == .normal {
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.panel?.isVisible != true else { return }
+                self.showPicker(for: [])
+            }
+        }
     }
 
     // MARK: - Finder quick action
@@ -31,24 +52,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         showPicker(for: folders)
     }
 
+    /// Opening the app again (Finder, Spotlight, Dock) shows the window.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        store.reload()
+        showPicker(for: [])
+        return false
+    }
+
     private func showPicker(for urls: [URL]) {
         panel?.close()
         let view = PickerView(
             folders: urls,
             palette: store.data.palette,
-            onPick: { [weak self] rgb in
+            storePath: store.directory?.path ?? "",
+            onPick: { [weak self] folders, rgb in
                 guard let self else { return }
-                urls.forEach { self.colorizer.apply(rgb, to: $0) }
+                folders.forEach { self.colorizer.apply(rgb, to: $0) }
                 self.rewatch()
                 self.panel?.close()
             },
             onSave: { [weak self] rgb in self?.store.addToPalette(rgb) },
             onForget: { [weak self] rgb in self?.store.removeFromPalette(rgb) },
-            onRestore: { [weak self] in
+            onRestore: { [weak self] folders in
                 guard let self else { return }
-                urls.forEach { self.colorizer.clear($0) }
+                folders.forEach { self.colorizer.clear($0) }
                 self.rewatch()
                 self.panel?.close()
+            },
+            onChooseFolders: { Self.chooseFolders() },
+            onChangeStore: { [weak self] in
+                guard let self, self.askForDirectory() else { return nil }
+                self.store.reload()
+                self.colorizer.refreshAll()
+                self.rewatch()
+                // The list in the new place may hold other dots — rebuild the window with them.
+                DispatchQueue.main.async { self.showPicker(for: urls) }
+                return self.store.directory?.path
             })
         let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable, .utilityWindow],
                             backing: .buffered, defer: false)
@@ -62,6 +101,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.panel = panel
         NSApp.activate()
         panel.makeKeyAndOrderFront(nil)
+    }
+
+    private static func chooseFolders() -> [URL] {
+        let open = NSOpenPanel()
+        open.title = "ColorMyFolder"
+        open.message = String(localized: "Choose the folders to color.")
+        open.prompt = String(localized: "Choose")
+        open.canChooseFiles = false
+        open.canChooseDirectories = true
+        open.allowsMultipleSelection = true
+        NSApp.activate()
+        return open.runModal() == .OK ? open.urls : []
     }
 
     // MARK: - Watching
@@ -81,7 +132,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Setup
 
     /// First launch on each Mac: the user decides where the list lives.
-    private func askForDirectory() {
+    @discardableResult
+    private func askForDirectory() -> Bool {
         let open = NSOpenPanel()
         open.title = "ColorMyFolder"
         open.message = String(localized: "Where should ColorMyFolder keep its list of colors and colored folders? It creates a hidden .ColorMyFolder folder in the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.")
@@ -90,13 +142,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         open.canChooseDirectories = true
         open.canCreateDirectories = true
         NSApp.activate()
-        guard open.runModal() == .OK, let url = open.url else { return }
+        guard open.runModal() == .OK, let url = open.url else { return false }
         let directory = URL(fileURLWithPath: Logic.storeDirectory(forChosen: url.path))
         do {
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             store.directory = directory
+            return true
         } catch {
             log.error("Cannot create \(directory.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            return false
         }
     }
 
@@ -108,14 +162,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             log.error("Cannot register login item: \(error.localizedDescription, privacy: .public)")
         }
-    }
-
-    /// Opening the app again (Finder, Spotlight) lets the user move the list.
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        askForDirectory()
-        store.reload()
-        colorizer.refreshAll()
-        rewatch()
-        return false
     }
 }

@@ -1,12 +1,52 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Change…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zmień…"
+          }
+        }
+      }
+    },
     "Choose": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Wybierz"
+          }
+        }
+      }
+    },
+    "Choose Folders…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz foldery…"
+          }
+        }
+      }
+    },
+    "Choose Other Folders…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz inne foldery…"
+          }
+        }
+      }
+    },
+    "Choose the folders to color.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz foldery do pokolorowania."
           }
         }
       }
@@ -41,12 +81,32 @@
         }
       }
     },
+    "List location": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miejsce listy"
+          }
+        }
+      }
+    },
     "No saved colors yet — pick a color below and click “Save Dot”.": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Brak zapisanych kolorów — wybierz kolor niżej i kliknij „Zapisz kropkę”."
+          }
+        }
+      }
+    },
+    "Not set": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie ustawiono"
           }
         }
       }
@@ -77,6 +137,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zapisz kropkę"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ustawienia"
           }
         }
       }
