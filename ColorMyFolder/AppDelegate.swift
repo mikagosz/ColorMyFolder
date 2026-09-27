@@ -10,6 +10,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// How this launch started — decides whether a window opens on its own.
     private enum Launch { case normal, atLogin, withFolders }
     private var launch = Launch.normal
+    /// The first-launch question about the list's place is asked once per launch, even when
+    /// Finder's folders and the launch itself both find the place unset.
+    private var askedForList = false
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         guard let event = NSAppleEventManager.shared().currentAppleEvent else { return }
@@ -22,7 +25,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if store.directory == nil && launch != .atLogin { setUpList() }
+        if store.directory == nil && launch != .atLogin && !askedForList { setUpList() }
         store.reload()
 
         QuickAction.install()
@@ -47,7 +50,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
         let folders = urls.filter { (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true }
         guard !folders.isEmpty else { return }
-        if store.directory == nil { setUpList() }
+        if store.directory == nil && !askedForList { setUpList() }
         store.reload()
         showPicker(for: folders)
     }
@@ -65,8 +68,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             folders: urls,
             palette: store.data.palette,
             storePath: store.directory?.path ?? "",
+            listUnreadable: store.directory != nil && !store.readable,
             onPick: { [weak self] folders, rgb in
-                guard let self else { return }
+                guard let self, self.confirmReplacingIcons(of: folders, restoring: false) else { return }
                 folders.forEach { self.colorizer.apply(rgb, to: $0) }
                 self.rewatch()
                 self.panel?.close()
@@ -74,7 +78,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             onSave: { [weak self] rgb in self?.store.addToPalette(rgb) },
             onForget: { [weak self] rgb in self?.store.removeFromPalette(rgb) },
             onRestore: { [weak self] folders in
-                guard let self else { return }
+                guard let self, self.confirmReplacingIcons(of: folders, restoring: true) else { return }
                 folders.forEach { self.colorizer.clear($0) }
                 self.rewatch()
                 self.panel?.close()
@@ -106,6 +110,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.makeKeyAndOrderFront(nil)
     }
 
+    /// Folders with a custom icon of their own lose it for good — ask first.
+    private func confirmReplacingIcons(of folders: [URL], restoring: Bool) -> Bool {
+        let foreign = folders.filter { colorizer.hasForeignIcon($0) }
+        guard !foreign.isEmpty else { return true }
+        let alert = NSAlert()
+        alert.messageText = restoring
+            ? String(localized: "Remove a custom icon ColorMyFolder did not set?")
+            : String(localized: "Replace a custom icon ColorMyFolder did not set?")
+        alert.informativeText = foreign.map(\.lastPathComponent).joined(separator: "\n") + "\n\n"
+            + String(localized: "This folder already has its own icon. ColorMyFolder cannot bring it back afterwards.")
+        alert.addButton(withTitle: restoring ? String(localized: "Remove Icon") : String(localized: "Replace Icon"))
+        alert.addButton(withTitle: String(localized: "Cancel"))
+        alert.alertStyle = .warning
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+
     private static func chooseFolders() -> [URL] {
         let open = NSOpenPanel()
         open.title = "ColorMyFolder"
@@ -127,9 +147,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func rewatch() {
-        var paths = store.data.folders.map { store.absoluteURL($0).path }
-        if let directory = store.directory?.path { paths.append(directory) }
-        watcher.watch(paths)
+        watcher.watch(colored: store.data.folders.map { store.absoluteURL($0).path },
+                      listDirectory: store.directory?.path)
     }
 
     // MARK: - Setup
@@ -137,6 +156,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// First launch on this Mac. A list made on another Mac may already be here through a synced
     /// folder — offer it before asking for a place.
     private func setUpList() {
+        askedForList = true
         let fm = FileManager.default
         let home = fm.homeDirectoryForCurrentUser
         let roots = [home, home.appendingPathComponent("Desktop"), home.appendingPathComponent("Documents"),
@@ -199,11 +219,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// The app has to run in the background to switch the paper sheet when folders fill up.
+    /// It adds itself to Login Items once; if the user turns that off later, it stays off.
     private func registerLoginItem() {
-        // The app has to run in the background to switch the paper sheet when folders fill up.
-        guard SMAppService.mainApp.status != .enabled else { return }
+        let key = "loginItemAdded"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
         do {
-            try SMAppService.mainApp.register()
+            if SMAppService.mainApp.status != .enabled { try SMAppService.mainApp.register() }
+            UserDefaults.standard.set(true, forKey: key)
         } catch {
             log.error("Cannot register login item: \(error.localizedDescription, privacy: .public)")
         }

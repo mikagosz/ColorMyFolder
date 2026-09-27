@@ -6,6 +6,8 @@ struct PickerView: View {
     @State var folders: [URL]
     @State var palette: [RGB]
     @State var storePath: String
+    /// The list file is there but cannot be read right now — changes are not saved meanwhile.
+    let listUnreadable: Bool
     @State private var custom: Color = .pink
     @State private var showSettings = false
 
@@ -39,6 +41,13 @@ struct PickerView: View {
                 .buttonStyle(.borderless)
                 .help("Settings")
                 .popover(isPresented: $showSettings, arrowEdge: .bottom) { settings }
+            }
+
+            if let problem = listProblem {
+                Label(problem, systemImage: "exclamationmark.triangle")
+                    .font(.callout).foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(width: 308, alignment: .leading)
             }
 
             HStack(spacing: 10) {
@@ -99,6 +108,17 @@ struct PickerView: View {
         }
         .padding(16)
         .frame(minWidth: 340, alignment: .leading)
+    }
+
+    /// Without a readable list the window still works, but nothing it changes is remembered.
+    private var listProblem: String? {
+        if storePath.isEmpty {
+            return String(localized: "Colors and folders are not saved until you choose where to keep the list — use the gear.")
+        }
+        if listUnreadable {
+            return String(localized: "The list cannot be read right now, so changes are not saved. If it is in iCloud Drive, wait until it downloads.")
+        }
+        return nil
     }
 
     static var version: String {

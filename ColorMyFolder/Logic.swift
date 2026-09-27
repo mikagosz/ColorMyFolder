@@ -1,6 +1,6 @@
 import Foundation
 
-/// Pure decisions, no AppKit — compiled on its own by `Testy/sprawdz.sh`.
+/// Pure decisions, no AppKit — checked headless by `Tests/check.sh`.
 enum Logic {
     /// The file macOS writes inside a folder that carries a custom icon.
     static let iconFileName = "Icon\r"
@@ -91,6 +91,49 @@ enum Logic {
         }
         return Shade(h: target.h, s: clamp(source.s * target.s / referenceSaturation),
                      b: clamp(source.b * target.b / referenceBrightness))
+    }
+
+    /// RGB (0…1) → hue, saturation, brightness, the same model as `NSColor.getHue`.
+    /// Done by hand: going through `NSColor` for every pixel made one icon take a third of a second.
+    static func hsb(r: Double, g: Double, b: Double) -> Shade {
+        let maxC = max(r, g, b), minC = min(r, g, b), delta = maxC - minC
+        var h = 0.0
+        if delta > 0 {
+            if maxC == r { h = (g - b) / delta / 6 }
+            else if maxC == g { h = ((b - r) / delta + 2) / 6 }
+            else { h = ((r - g) / delta + 4) / 6 }
+            if h < 0 { h += 1 }
+        }
+        return Shade(h: h, s: maxC > 0 ? delta / maxC : 0, b: maxC)
+    }
+
+    static func rgb(_ shade: Shade) -> (r: Double, g: Double, b: Double) {
+        let h = (shade.h - shade.h.rounded(.down)) * 6, s = shade.s, v = shade.b
+        let sector = min(5, Int(h)), f = h - Double(sector)
+        let p = v * (1 - s), q = v * (1 - s * f), t = v * (1 - s * (1 - f))
+        switch sector {
+        case 0: return (v, t, p)
+        case 1: return (q, v, p)
+        case 2: return (p, v, t)
+        case 3: return (p, q, v)
+        case 4: return (t, p, v)
+        default: return (v, p, q)
+        }
+    }
+
+    /// FSEvents reports the folder whose contents changed. Only direct changes inside a colored
+    /// folder can flip it between empty and full; anything under the list's folder may be a new list.
+    /// Changes deeper inside a colored folder are ignored — coloring a big folder must not mean
+    /// rechecking everything on every save somewhere below it.
+    static func isRelevant(changedFolder: String, coloredFolders: Set<String>, listDirectory: String?) -> Bool {
+        let path = trimmedSlash(changedFolder)
+        if coloredFolders.contains(path) { return true }
+        guard let list = listDirectory.map(trimmedSlash) else { return false }
+        return path == list || path.hasPrefix(list + "/")
+    }
+
+    static func trimmedSlash(_ path: String) -> String {
+        path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
     }
 
     /// Rewriting the icon costs a write (and a sync on the other Mac), so it happens only when

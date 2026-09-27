@@ -21,6 +21,16 @@
         }
       }
     },
+    "Cancel": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anuluj"
+          }
+        }
+      }
+    },
     "Change…": {
       "localizations": {
         "pl": {
@@ -101,6 +111,16 @@
         }
       }
     },
+    "Colors and folders are not saved until you choose where to keep the list — use the gear.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kolory i foldery nie są zapisywane, dopóki nie wybierzesz miejsca na listę — użyj zębatki."
+          }
+        }
+      }
+    },
     "Delete Color": {
       "localizations": {
         "pl": {
@@ -171,6 +191,46 @@
         }
       }
     },
+    "Remove Icon": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuń ikonę"
+          }
+        }
+      }
+    },
+    "Remove a custom icon ColorMyFolder did not set?": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usunąć własną ikonę, której nie nadał ColorMyFolder?"
+          }
+        }
+      }
+    },
+    "Replace Icon": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zastąp ikonę"
+          }
+        }
+      }
+    },
+    "Replace a custom icon ColorMyFolder did not set?": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zastąpić własną ikonę, której nie nadał ColorMyFolder?"
+          }
+        }
+      }
+    },
     "Restore System Look": {
       "localizations": {
         "pl": {
@@ -207,6 +267,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zacznij nową listę"
+          }
+        }
+      }
+    },
+    "The list cannot be read right now, so changes are not saved. If it is in iCloud Drive, wait until it downloads.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listy nie da się teraz odczytać, więc zmiany nie są zapisywane. Jeśli leży w iCloud Drive, poczekaj, aż się pobierze."
+          }
+        }
+      }
+    },
+    "This folder already has its own icon. ColorMyFolder cannot bring it back afterwards.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ten folder ma już własną ikonę. ColorMyFolder nie umie jej potem przywrócić."
           }
         }
       }

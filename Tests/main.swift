@@ -1,5 +1,5 @@
-import Foundation
-// Headless check of the pure logic — run with Tests/check.sh
+import AppKit
+// Headless check of the pure logic and the list file — run with Tests/check.sh
 var failures = 0
 func check(_ ok: Bool, _ what: String) { print(ok ? "ok   " : "FAIL ", what); if !ok { failures += 1 } }
 
@@ -49,6 +49,72 @@ check(!lists.contains(deep), "does not dig deeper than one level")
 check(Logic.existingLists(in: [tmp + "/Empty"]).isEmpty, "a folder without the list file is not a list")
 try? fm.removeItem(atPath: tmp)
 check(Logic.setAsideName(date: Date(timeIntervalSince1970: 0)).hasPrefix("ColorMyFolder (before 19"), "old list gets a dated name")
+
+
+// Color model by hand must match NSColor's
+for (r, g, b) in [(0.9, 0.2, 0.3), (0.1, 0.6, 0.95), (0.5, 0.5, 0.5), (0.0, 0.0, 0.0), (0.3, 0.9, 0.1), (0.8, 0.1, 0.9)] {
+    let mine = Logic.hsb(r: r, g: g, b: b)
+    var h: CGFloat = 0, s: CGFloat = 0, v: CGFloat = 0, a: CGFloat = 0
+    NSColor(deviceRed: r, green: g, blue: b, alpha: 1).getHue(&h, saturation: &s, brightness: &v, alpha: &a)
+    let back = Logic.rgb(mine)
+    check(abs(mine.h - Double(h)) < 1e-6 && abs(mine.s - Double(s)) < 1e-6 && abs(mine.b - Double(v)) < 1e-6
+          && abs(back.r - r) < 1e-9 && abs(back.g - g) < 1e-9 && abs(back.b - b) < 1e-9,
+          "hsb/rgb by hand = NSColor for (\(r), \(g), \(b))")
+}
+
+// Which FSEvents matter
+let coloredSet: Set<String> = ["/h/Desktop/A"]
+check(Logic.isRelevant(changedFolder: "/h/Desktop/A/", coloredFolders: coloredSet, listDirectory: "/h/Sync/.ColorMyFolder"), "a change inside a colored folder counts")
+check(!Logic.isRelevant(changedFolder: "/h/Desktop/A/deep/er", coloredFolders: coloredSet, listDirectory: "/h/Sync/.ColorMyFolder"), "a change deeper inside does not")
+check(Logic.isRelevant(changedFolder: "/h/Sync/.ColorMyFolder/", coloredFolders: coloredSet, listDirectory: "/h/Sync/.ColorMyFolder"), "a change in the list folder counts")
+check(!Logic.isRelevant(changedFolder: "/h/Sync/.ColorMyFolderX", coloredFolders: coloredSet, listDirectory: "/h/Sync/.ColorMyFolder"), "a similar name is not the list folder")
+
+// The list file
+let storeTmp = (NSTemporaryDirectory() as NSString).appendingPathComponent("cmf-store-\(ProcessInfo.processInfo.processIdentifier)")
+let listDir = URL(fileURLWithPath: storeTmp + "/.ColorMyFolder")
+try! fm.createDirectory(at: listDir, withIntermediateDirectories: true)
+let suite = "cmf-check-\(ProcessInfo.processInfo.processIdentifier)"
+let defaults = UserDefaults(suiteName: suite)!
+let store = Store(defaults: defaults, home: "/h")
+store.directory = listDir
+let listFile = listDir.appendingPathComponent(Store.fileName)
+func fileText() -> String { (try? String(contentsOf: listFile, encoding: .utf8)) ?? "" }
+func write(_ json: String) { try! json.write(to: listFile, atomically: true, encoding: .utf8) }
+
+store.reload()
+check(store.readable && store.data.palette.isEmpty, "no list file yet — an empty, writable list")
+store.addToPalette(RGB(r: 1, g: 0, b: 0))
+check(fileText().contains("\"r\" : 1"), "the first color is written")
+
+write(#"{"palette":[{"r":1,"g":0,"b":0},{"r":0,"g":0,"b":1}],"folders":[]}"#)   // the other Mac added blue
+store.addToPalette(RGB(r: 0, g: 1, b: 0))                                        // this Mac adds green, list in memory is old
+store.reload()
+check(store.data.palette.count == 3, "a change made on the other Mac a moment ago is kept")
+
+write(#"{"format":2,"palette":[{"r":0.5,"g":0.5,"b":0.5,"finish":"chrome","gloss":0.7}],"folders":[{"path":"~/A","color":{"r":1,"g":1,"b":1},"note":"x"}]}"#)
+store.addToPalette(RGB(r: 0, g: 0, b: 0))
+let kept = fileText()
+check(kept.contains("\"format\" : 2") && kept.contains("\"gloss\" : 0.7") && kept.contains("\"note\" : \"x\"") && kept.contains("chrome"),
+      "fields from a newer version survive a save")
+store.reload()
+check(store.data.palette.first == RGB(r: 0.5, g: 0.5, b: 0.5, finish: "chrome"), "a color is the same color whatever else is stored with it")
+
+write("{ not json")
+let broken = fileText()
+store.addToPalette(RGB(r: 0.2, g: 0.2, b: 0.2))
+check(!store.readable && fileText() == broken, "an unreadable list is not overwritten")
+
+try! fm.removeItem(at: listFile)
+fm.createFile(atPath: listDir.appendingPathComponent(".\(Store.fileName).icloud").path, contents: Data())
+store.addToPalette(RGB(r: 0.2, g: 0.2, b: 0.2))
+check(!store.readable && !fm.fileExists(atPath: listFile.path), "a list still in iCloud is not replaced with a new one")
+
+store.directory = URL(fileURLWithPath: storeTmp + "/Unmounted/.ColorMyFolder")
+store.addToPalette(RGB(r: 0.2, g: 0.2, b: 0.2))
+check(!store.readable, "a missing list folder (disk not mounted) is not an empty list")
+
+try? fm.removeItem(atPath: storeTmp)
+defaults.removePersistentDomain(forName: suite)
 
 print(failures == 0 ? "ALL OK" : "FAILURES: \(failures)")
 if failures > 0 { fatalError() }

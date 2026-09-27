@@ -1,7 +1,7 @@
 #!/bin/bash
-# Headless check of ColorMyFolder's logic — no windows, no Xcode project needed.
+# Headless check of ColorMyFolder's logic and list file — no windows, no Xcode project needed.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$(mktemp -d)/check"
-swiftc -o "$OUT" ColorMyFolder/Logic.swift Tests/main.swift -module-name Check 2>&1 | grep -v "^$" || true
+swiftc -o "$OUT" ColorMyFolder/Logic.swift ColorMyFolder/Store.swift Tests/main.swift -module-name Check 2>&1 | grep -v "^$" || true
 "$OUT"

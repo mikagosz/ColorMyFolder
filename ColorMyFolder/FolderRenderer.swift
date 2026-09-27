@@ -11,7 +11,21 @@ enum FolderRenderer {
         (128, 256), (256, 256), (256, 512), (512, 512), (512, 1024),
     ]
 
+    /// Finished icons by color and empty/full — the same color on many folders is drawn once.
+    /// One icon holds about 6 MB of bitmaps, so only a few are kept.
+    private static var cache: [String: NSImage] = [:]
+    private static let cacheLimit = 6
+
     static func icon(for rgb: RGB, full: Bool) -> NSImage? {
+        let key = "\(rgb.r) \(rgb.g) \(rgb.b) \(rgb.finish ?? "") \(full)"
+        if let cached = cache[key] { return cached }
+        guard let icon = render(rgb, full: full) else { return nil }
+        if cache.count >= cacheLimit { cache.removeAll() }
+        cache[key] = icon
+        return icon
+    }
+
+    private static func render(_ rgb: RGB, full: Bool) -> NSImage? {
         guard let target = rgb.color.usingColorSpace(.deviceRGB) else { return nil }
         var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
         target.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
@@ -66,23 +80,21 @@ enum FolderRenderer {
         let width = rep.pixelsWide, height = rep.pixelsHigh
         for i in 0..<(width * height) {
             let o = i * 4
-            let alpha = CGFloat(data[o + 3]) / 255
+            let alpha = Double(data[o + 3]) / 255
             if alpha == 0 { continue }
-            let source = NSColor(deviceRed: CGFloat(data[o]) / 255 / alpha,
-                                 green: CGFloat(data[o + 1]) / 255 / alpha,
-                                 blue: CGFloat(data[o + 2]) / 255 / alpha, alpha: 1)
-            var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-            source.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            let painted = Logic.paint(source: Logic.Shade(h: Double(h), s: Double(s), b: Double(b)), target: target,
-                                      finish: finish, y: Double(i / width) / Double(height))
-            let result = NSColor(deviceHue: painted.h, saturation: painted.s, brightness: painted.b, alpha: 1)
-            data[o] = byte(result.redComponent * alpha)
-            data[o + 1] = byte(result.greenComponent * alpha)
-            data[o + 2] = byte(result.blueComponent * alpha)
+            let source = Logic.hsb(r: min(1, Double(data[o]) / 255 / alpha),
+                                   g: min(1, Double(data[o + 1]) / 255 / alpha),
+                                   b: min(1, Double(data[o + 2]) / 255 / alpha))
+            let painted = Logic.paint(source: source, target: target, finish: finish,
+                                      y: Double(i / width) / Double(height))
+            let result = Logic.rgb(painted)
+            data[o] = byte(result.r * alpha)
+            data[o + 1] = byte(result.g * alpha)
+            data[o + 2] = byte(result.b * alpha)
         }
     }
 
-    private static func byte(_ value: CGFloat) -> UInt8 {
+    private static func byte(_ value: Double) -> UInt8 {
         UInt8(max(0, min(255, (value * 255).rounded())))
     }
 }

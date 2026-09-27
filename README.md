@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/colormyfolder-icon.png" width="160" alt="ColorMyFolder app icon">
+  <img src="https://fractal8.eu/assets/icons/colormyfolder.png" width="160" alt="ColorMyFolder app icon">
 </p>
 
 ## ColorMyFolder
@@ -42,6 +42,10 @@ has something in it.
 3. **Save Color** keeps the current color in the palette; right-click a saved color →
    **Delete Color** removes it. **Restore System Look** gives the folder back its normal icon.
 
+If a folder already has a custom icon that ColorMyFolder did not set (one you pasted in
+*Get Info*, for example), ColorMyFolder asks before replacing or removing it — it cannot bring
+that icon back afterwards.
+
 You can also open ColorMyFolder from Applications (or Spotlight) and use **Choose Folders…**
 in its window. The gear in the corner shows where the list of colors is kept and lets you
 move it.
@@ -78,7 +82,13 @@ To move the list somewhere else later, use the gear in the ColorMyFolder window.
 
 ## Installing
 
-There is no prebuilt download yet — you build the app from source:
+**Download:** the ready-made app is on the
+[ColorMyFolder page at fractal8.eu](https://fractal8.eu/program?p=colormyfolder&lang=en). Unzip it
+and move `ColorMyFolder.app` to Applications. The app is not notarized with Apple, so macOS blocks
+it the first time you open it — go to *System Settings → Privacy & Security* and click
+**Open Anyway**.
+
+**Or build it from source:**
 
 ```bash
 git clone https://github.com/mikagosz/ColorMyFolder.git
@@ -95,11 +105,16 @@ The logic check can also be run on its own, without Xcode: `./Tests/check.sh`.
 
 ## First launch
 
-- ColorMyFolder asks where to keep its list of colors and colored folders. Pick any folder;
-  choose a synced one if you use more than one Mac (see above).
+- ColorMyFolder first looks for a list you already use on another Mac: in your home folder,
+  Desktop, Documents and iCloud Drive, and one level of folders inside each. macOS may ask
+  whether ColorMyFolder can access your Desktop, Documents or iCloud Drive. If you say no, it
+  simply does not look there — and it cannot keep the paper sheet right on colored folders there.
+- Then it asks where to keep its list of colors and colored folders. Pick any folder;
+  choose a synced one if you use more than one Mac (see above). If you cancel, the window
+  works, but nothing is saved until you choose a place with the gear.
 - macOS shows a notification that a login item was added — ColorMyFolder has to run in the
-  background to switch the paper sheet when folders fill up or empty. You can turn it off in
-  *System Settings → General → Login Items*.
+  background to switch the paper sheet when folders fill up or empty. It adds itself once; if
+  you turn it off in *System Settings → General → Login Items*, it stays off.
 - If the ColorMyFolder item in Finder shows a generic document icon instead of the palette,
   relaunch Finder: hold Option, right-click Finder in the Dock and choose **Relaunch**.
 
@@ -108,13 +123,21 @@ The logic check can also be run on its own, without Xcode: `./Tests/check.sh`.
 1. Give your folders their normal look back with **Restore System Look** (the custom icon stays
    on a folder otherwise).
 2. Quit ColorMyFolder in Activity Monitor and remove it from *System Settings → General → Login Items*.
-3. Delete `ColorMyFolder.app`, `~/Library/Services/ColorMyFolder.workflow` and the hidden
-   `.ColorMyFolder` folder in the place you chose on first launch.
+3. Delete `ColorMyFolder.app`, `~/Library/Services/ColorMyFolder.workflow`, the settings file
+   `~/Library/Preferences/com.mikagosz.ColorMyFolder.plist` and the hidden `.ColorMyFolder`
+   folder in the place you chose on first launch.
 
 ## Privacy
 
-ColorMyFolder never connects to the network. It reads and writes only the folders you color,
-its own list file in the folder you chose, and its quick action in `~/Library/Services`.
+ColorMyFolder never connects to the network and sends nothing anywhere. On your Mac it:
+
+- writes the icons of the folders you color and reads what is in them (to know whether a
+  folder is empty),
+- reads and writes its own list file in the folder you chose,
+- on first launch, looks for an existing list in your home folder, Desktop, Documents and
+  iCloud Drive (one level deep) — it only checks whether a `.ColorMyFolder` folder is there,
+- installs its quick action in `~/Library/Services`, adds itself to Login Items once and keeps
+  its settings (the list's place) in `~/Library/Preferences`.
 
 ## Licence
 

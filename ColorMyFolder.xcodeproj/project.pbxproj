@@ -219,7 +219,7 @@
 				CODE_SIGN_IDENTITY = 85C274E1928B36D546B36B8462A879E6A97BFC22;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -227,11 +227,14 @@
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSDesktopFolderUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders on your Desktop up to date.";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in Documents up to date.";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in iCloud Drive up to date.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.13;
+				MARKETING_VERSION = 0.1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikagosz.ColorMyFolder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -247,7 +250,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -255,11 +258,14 @@
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSDesktopFolderUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders on your Desktop up to date.";
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in Documents up to date.";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in iCloud Drive up to date.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.13;
+				MARKETING_VERSION = 0.1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikagosz.ColorMyFolder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

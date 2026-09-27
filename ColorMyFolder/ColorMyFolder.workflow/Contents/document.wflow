@@ -53,11 +53,11 @@
 					<key>source</key>
 					<string>on run {input, parameters}
 	if input is {} then return
-	set sciezki to ""
+	set paths to ""
 	repeat with f in input
-		set sciezki to sciezki &amp; " " &amp; quoted form of (POSIX path of f)
+		set paths to paths &amp; " " &amp; quoted form of (POSIX path of f)
 	end repeat
-	do shell script "open -b com.mikagosz.ColorMyFolder" &amp; sciezki
+	do shell script "open -b com.mikagosz.ColorMyFolder" &amp; paths
 end run</string>
 				</dict>
 				<key>BundleIdentifier</key>

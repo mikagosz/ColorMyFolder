@@ -47,6 +47,12 @@ final class Colorizer {
         }
     }
 
+    /// A custom icon ColorMyFolder did not put there (the folder is not on the list) — for example one
+    /// the user pasted in Finder's Get Info. Coloring or restoring such a folder loses that icon.
+    func hasForeignIcon(_ url: URL) -> Bool {
+        store.color(of: url) == nil && Self.hasCustomIcon(url)
+    }
+
     /// Finder's kHasCustomIcon flag (0x0400 in the big-endian finderFlags at offset 8 of FinderInfo).
     private static func hasCustomIcon(_ url: URL) -> Bool {
         var info = [UInt8](repeating: 0, count: 32)

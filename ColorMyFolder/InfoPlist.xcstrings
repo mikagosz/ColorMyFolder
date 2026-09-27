@@ -1,0 +1,60 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSDesktopFolderUsageDescription": {
+      "comment": "Privacy - NSDesktopFolderUsageDescription",
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders on your Desktop up to date."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder szuka listy kolorów, której używasz już na innym Macu, i pilnuje ikon pokolorowanych folderów na Biurku."
+          }
+        }
+      }
+    },
+    "NSDocumentsFolderUsageDescription": {
+      "comment": "Privacy - NSDocumentsFolderUsageDescription",
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in Documents up to date."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder szuka listy kolorów, której używasz już na innym Macu, i pilnuje ikon pokolorowanych folderów w Dokumentach."
+          }
+        }
+      }
+    },
+    "NSFileProviderDomainUsageDescription": {
+      "comment": "Privacy - NSFileProviderDomainUsageDescription",
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "ColorMyFolder looks for a list of colors you already use on another Mac, and keeps the icons of colored folders in iCloud Drive up to date."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder szuka listy kolorów, której używasz już na innym Macu, i pilnuje ikon pokolorowanych folderów w iCloud Drive."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
