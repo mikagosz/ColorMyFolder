@@ -1,6 +1,26 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld colors, %lld colored folders": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kolory: %1$lld, pokolorowane foldery: %2$lld"
+          }
+        }
+      }
+    },
+    "A new list sets the old one aside in the same folder. Another Mac using this place will switch to the new list too.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nowa lista odłoży starą obok, w tym samym folderze. Drugi Mac korzystający z tego miejsca też przejdzie na nową listę."
+          }
+        }
+      }
+    },
     "Change…": {
       "localizations": {
         "pl": {
@@ -17,6 +37,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wybierz"
+          }
+        }
+      }
+    },
+    "Choose Another Place…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz inne miejsce…"
           }
         }
       }
@@ -57,6 +87,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pokoloruj"
+          }
+        }
+      }
+    },
+    "ColorMyFolder found an existing list": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder znalazł istniejącą listę"
           }
         }
       }
@@ -147,6 +187,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ustawienia"
+          }
+        }
+      }
+    },
+    "Start a New List": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zacznij nową listę"
+          }
+        }
+      }
+    },
+    "This place already has a ColorMyFolder list": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "W tym miejscu jest już lista ColorMyFolder"
+          }
+        }
+      }
+    },
+    "Use It": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Użyj jej"
+          }
+        }
+      }
+    },
+    "Use This List": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Użyj tej listy"
+          }
+        }
+      }
+    },
+    "Use it to share colors with your other Mac, or choose another place.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Użyj jej, żeby mieć te same kolory co na drugim Macu, albo wybierz inne miejsce."
           }
         }
       }

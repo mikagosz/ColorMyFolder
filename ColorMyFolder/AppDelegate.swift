@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        if store.directory == nil && launch != .atLogin { askForDirectory() }
+        if store.directory == nil && launch != .atLogin { setUpList() }
         store.reload()
 
         QuickAction.install()
@@ -47,7 +47,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
         let folders = urls.filter { (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true }
         guard !folders.isEmpty else { return }
-        if store.directory == nil { askForDirectory() }
+        if store.directory == nil { setUpList() }
         store.reload()
         showPicker(for: folders)
     }
@@ -131,7 +131,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Setup
 
-    /// First launch on each Mac: the user decides where the list lives.
+    /// First launch on this Mac. A list made on another Mac may already be here through a synced
+    /// folder — offer it before asking for a place.
+    private func setUpList() {
+        let fm = FileManager.default
+        let home = fm.homeDirectoryForCurrentUser
+        let roots = [home, home.appendingPathComponent("Desktop"), home.appendingPathComponent("Documents"),
+                     home.appendingPathComponent("Library/Mobile Documents/com~apple~CloudDocs")].map(\.path)
+        if let found = Logic.existingLists(in: roots).first {
+            let directory = URL(fileURLWithPath: found)
+            let alert = NSAlert()
+            alert.messageText = String(localized: "ColorMyFolder found an existing list")
+            alert.informativeText = "\(found)\n\(Store.summary(of: directory) ?? "")\n\n"
+                + String(localized: "Use it to share colors with your other Mac, or choose another place.")
+            alert.addButton(withTitle: String(localized: "Use This List"))
+            alert.addButton(withTitle: String(localized: "Choose Another Place…"))
+            NSApp.activate()
+            if alert.runModal() == .alertFirstButtonReturn {
+                store.directory = directory
+                return
+            }
+        }
+        askForDirectory()
+    }
+
+    /// The user decides where the list lives.
     @discardableResult
     private func askForDirectory() -> Bool {
         let open = NSOpenPanel()
@@ -144,6 +168,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate()
         guard open.runModal() == .OK, let url = open.url else { return false }
         let directory = URL(fileURLWithPath: Logic.storeDirectory(forChosen: url.path))
+        let file = directory.appendingPathComponent(Store.fileName)
+        if FileManager.default.fileExists(atPath: file.path) {
+            let alert = NSAlert()
+            alert.messageText = String(localized: "This place already has a ColorMyFolder list")
+            alert.informativeText = (Store.summary(of: directory) ?? "") + "\n\n"
+                + String(localized: "A new list sets the old one aside in the same folder. Another Mac using this place will switch to the new list too.")
+            alert.addButton(withTitle: String(localized: "Use It"))
+            alert.addButton(withTitle: String(localized: "Start a New List"))
+            if alert.runModal() != .alertFirstButtonReturn {
+                let aside = directory.appendingPathComponent(Logic.setAsideName(date: Date()))
+                do {
+                    try FileManager.default.moveItem(at: file, to: aside)
+                } catch {
+                    log.error("Cannot set old list aside: \(error.localizedDescription, privacy: .public)")
+                    return false
+                }
+            }
+        }
         do {
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             store.directory = directory

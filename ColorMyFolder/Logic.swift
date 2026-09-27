@@ -30,6 +30,36 @@ enum Logic {
         return (trimmed as NSString).appendingPathComponent(storeFolderName)
     }
 
+    static let storeFileName = "ColorMyFolder.json"
+
+    /// Lists made earlier (e.g. on another Mac, arriving through a synced folder): looks for
+    /// `.ColorMyFolder/ColorMyFolder.json` in each root and one level of folders below it.
+    /// Newest first.
+    static func existingLists(in roots: [String], fileManager: FileManager = .default) -> [String] {
+        var found: [String: Date] = [:]
+        for root in roots {
+            var places = [root]
+            let children = (try? fileManager.contentsOfDirectory(atPath: root)) ?? []
+            places += children.filter { !$0.hasPrefix(".") }.map { (root as NSString).appendingPathComponent($0) }
+            for place in places {
+                let directory = (place as NSString).appendingPathComponent(storeFolderName)
+                let file = (directory as NSString).appendingPathComponent(storeFileName)
+                if let attributes = try? fileManager.attributesOfItem(atPath: file) {
+                    found[directory] = attributes[.modificationDate] as? Date ?? .distantPast
+                }
+            }
+        }
+        return found.sorted { $0.value > $1.value }.map(\.key)
+    }
+
+    /// Name for the old list when the user starts a new one in the same place.
+    static func setAsideName(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd HHmmss"
+        return "ColorMyFolder (before \(formatter.string(from: date))).json"
+    }
+
     static func absolutePath(_ stored: String, home: String) -> String {
         if stored == "~" { return home }
         if stored.hasPrefix("~/") { return home + stored.dropFirst(1) }

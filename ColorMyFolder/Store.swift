@@ -32,7 +32,7 @@ struct StoreData: Codable {
 /// The list of saved colours and coloured folders. Lives in one JSON file in a folder the
 /// user picks on first launch, so a synced folder shares it between Macs.
 final class Store {
-    static let fileName = "ColorMyFolder.json"
+    static let fileName = Logic.storeFileName
     private static let directoryKey = "storeDirectory"
 
     private(set) var data = StoreData()
@@ -54,6 +54,13 @@ final class Store {
             // Keep what is in memory rather than wiping the list over one bad read.
             log.error("Cannot read \(url.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
         }
+    }
+
+    /// "N colors, M folders" for the list in `directory`, nil when it cannot be read.
+    static func summary(of directory: URL) -> String? {
+        guard let raw = try? Data(contentsOf: directory.appendingPathComponent(fileName)),
+              let data = try? JSONDecoder().decode(StoreData.self, from: raw) else { return nil }
+        return String(localized: "\(data.palette.count) colors, \(data.folders.count) colored folders")
     }
 
     func save() {
