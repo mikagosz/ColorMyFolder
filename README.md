@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/colormyfolder-icon.png" width="160" alt="ColorMyFolder app icon">
+</p>
+
 ## ColorMyFolder
 
 **Any color for any folder — in the macOS folder look.**
