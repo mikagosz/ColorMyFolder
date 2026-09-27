@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The ColorMyFolder window: folders to color, saved color dots, a color picker, "restore",
+/// The ColorMyFolder window: folders to color, saved colors, a color picker, "restore",
 /// and a gear with the list location. Opened from Finder with folders, or from the app icon without.
 struct PickerView: View {
     @State var folders: [URL]
@@ -18,7 +18,7 @@ struct PickerView: View {
 
     private var title: String {
         switch folders.count {
-        case 0: return "ColorMyFolder"
+        case 0: return String(localized: "No folder chosen")
         case 1: return folders[0].lastPathComponent
         default: return String(localized: "Folders: \(folders.count)")
         }
@@ -26,8 +26,10 @@ struct PickerView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
+            // The window's title bar carries the app name; this line says what gets colored.
             HStack(alignment: .firstTextBaseline) {
                 Text(title).font(.headline).lineLimit(1).truncationMode(.middle)
+                    .foregroundStyle(folders.isEmpty ? .secondary : .primary)
                 Spacer()
                 Button {
                     showSettings.toggle()
@@ -39,33 +41,34 @@ struct PickerView: View {
                 .popover(isPresented: $showSettings, arrowEdge: .bottom) { settings }
             }
 
-            Button(folders.isEmpty ? "Choose Folders…" : "Choose Other Folders…") {
-                let chosen = onChooseFolders()
-                if !chosen.isEmpty { folders = chosen }
+            HStack(spacing: 10) {
+                Button(folders.isEmpty ? "Choose Folders…" : "Choose Other Folders…") {
+                    let chosen = onChooseFolders()
+                    if !chosen.isEmpty { folders = chosen }
+                }
+                Button("Restore System Look", role: .destructive) { onRestore(folders) }
+                    .disabled(folders.isEmpty)
             }
+            .fixedSize()
 
             if palette.isEmpty {
-                Text("No saved colors yet — pick a color below and click “Save Dot”.")
+                Text("No saved colors yet — pick a color below and click “Save Color”.")
                     .font(.callout).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(width: 308, alignment: .leading)
             } else {
                 LazyVGrid(columns: Array(repeating: GridItem(.fixed(26), spacing: 10), count: 8), alignment: .leading, spacing: 10) {
                     ForEach(palette, id: \.self) { rgb in
-                        Button { onPick(folders, rgb) } label: {
-                            Circle().fill(Color(nsColor: rgb.color))
-                                .overlay(Circle().strokeBorder(.primary.opacity(0.15)))
-                                .frame(width: 24, height: 24)
-                        }
-                        .buttonStyle(.plain)
-                        .disabled(folders.isEmpty)
-                        .help("Color Folder")
-                        .contextMenu {
-                            Button("Delete Dot") {
-                                onForget(rgb)
-                                palette.removeAll { $0 == rgb }
+                        Button { onPick(folders, rgb) } label: { Self.dot(rgb) }
+                            .buttonStyle(.plain)
+                            .disabled(folders.isEmpty)
+                            .help("Color Folder")
+                            .contextMenu {
+                                Button("Delete Color") {
+                                    onForget(rgb)
+                                    palette.removeAll { $0 == rgb }
+                                }
                             }
-                        }
                     }
                 }
             }
@@ -73,9 +76,7 @@ struct PickerView: View {
             Divider()
 
             HStack(spacing: 10) {
-                ColorPicker("Other Color", selection: $custom, supportsOpacity: false)
-                Spacer()
-                Button("Save Dot") {
+                Button("Save Color") {
                     guard let rgb = RGB(NSColor(custom)) else { return }
                     onSave(rgb)
                     if !palette.contains(rgb) { palette.append(rgb) }
@@ -87,17 +88,28 @@ struct PickerView: View {
                 .keyboardShortcut(.defaultAction)
                 .disabled(folders.isEmpty)
             }
-            // Never truncate the labels (Polish “Inny kolor” did at 340 pt) — the window grows instead.
             .fixedSize()
 
-            HStack {
-                Button("Restore System Look", role: .destructive) { onRestore(folders) }
-                    .disabled(folders.isEmpty)
-                Spacer()
-            }
+            ColorPicker("Other Color", selection: $custom, supportsOpacity: false)
+                .fixedSize()
         }
         .padding(16)
         .frame(minWidth: 340, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private static func dot(_ rgb: RGB) -> some View {
+        let shape = Circle()
+        Group {
+            if rgb.finish == Logic.chrome {
+                shape.fill(LinearGradient(colors: [Color(white: 0.95), Color(white: 0.55), Color(white: 0.9), Color(white: 0.5)],
+                                          startPoint: .top, endPoint: .bottom))
+            } else {
+                shape.fill(Color(nsColor: rgb.color))
+            }
+        }
+        .overlay(shape.strokeBorder(.primary.opacity(0.15)))
+        .frame(width: 24, height: 24)
     }
 
     private var settings: some View {

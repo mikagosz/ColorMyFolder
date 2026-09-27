@@ -101,12 +101,12 @@
         }
       }
     },
-    "Delete Dot": {
+    "Delete Color": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Usuń kropkę"
+            "value": "Usuń kolor"
           }
         }
       }
@@ -131,12 +131,22 @@
         }
       }
     },
-    "No saved colors yet — pick a color below and click “Save Dot”.": {
+    "No folder chosen": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Brak zapisanych kolorów — wybierz kolor niżej i kliknij „Zapisz kropkę”."
+            "value": "Nie wybrano folderu"
+          }
+        }
+      }
+    },
+    "No saved colors yet — pick a color below and click “Save Color”.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brak zapisanych kolorów — wybierz kolor niżej i kliknij „Zapisz kolor”."
           }
         }
       }
@@ -171,12 +181,12 @@
         }
       }
     },
-    "Save Dot": {
+    "Save Color": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Zapisz kropkę"
+            "value": "Zapisz kolor"
           }
         }
       }

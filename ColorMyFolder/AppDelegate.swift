@@ -85,14 +85,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self.store.reload()
                 self.colorizer.refreshAll()
                 self.rewatch()
-                // The list in the new place may hold other dots — rebuild the window with them.
+                // The list in the new place may hold other colors — rebuild the window with them.
                 DispatchQueue.main.async { self.showPicker(for: urls) }
                 return self.store.directory?.path
             })
-        let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable, .utilityWindow],
+        // A normal window (close, minimize) that sizes itself to the content.
+        let host = NSHostingController(rootView: view)
+        host.sizingOptions = [.preferredContentSize]
+        let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable],
                             backing: .buffered, defer: false)
         panel.title = "ColorMyFolder"
-        panel.contentViewController = NSHostingController(rootView: view)
+        panel.contentViewController = host
         panel.isReleasedWhenClosed = false
         // Panels hide when the app loses focus; a stray click on the desktop would close the picker.
         panel.hidesOnDeactivate = false

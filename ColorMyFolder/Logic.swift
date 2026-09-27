@@ -66,6 +66,33 @@ enum Logic {
         return stored
     }
 
+    struct Shade: Equatable { var h: Double; var s: Double; var b: Double }
+
+    /// Finishes that are not a plain color. Stored in the list next to r/g/b.
+    static let chrome = "chrome"
+
+    /// Saturation and brightness of the system blue the folder parts are drawn in.
+    static let referenceSaturation = 0.62
+    static let referenceBrightness = 0.90
+
+    /// New color for one pixel of a system-blue folder part. `y` runs 0 (top) … 1 (bottom).
+    /// Colors keep the part's light-to-dark gradient relative to the system blue; black, white and
+    /// greys keep it as a brightness offset (a ratio would flatten them); chrome is a cool silver
+    /// with two soft reflection bands.
+    static func paint(source: Shade, target: Shade, finish: String?, y: Double) -> Shade {
+        func clamp(_ v: Double) -> Double { min(1, max(0, v)) }
+        if finish == chrome {
+            let base = 0.74 + (source.b - referenceBrightness) * 1.4
+            let reflections = 0.16 * sin(y * .pi * 3.2)
+            return Shade(h: 0.58, s: 0.05, b: clamp(base + reflections))
+        }
+        if target.s < 0.08 {
+            return Shade(h: target.h, s: target.s, b: clamp(target.b + (source.b - referenceBrightness)))
+        }
+        return Shade(h: target.h, s: clamp(source.s * target.s / referenceSaturation),
+                     b: clamp(source.b * target.b / referenceBrightness))
+    }
+
     /// Rewriting the icon costs a write (and a sync on the other Mac), so it happens only when
     /// the user asked for it, the empty/full state changed, or the icon went missing —
     /// Syncthing carries the icon file but not the Finder flag that switches it on.

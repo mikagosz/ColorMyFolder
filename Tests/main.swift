@@ -23,6 +23,18 @@ check(Logic.needsApply(forced: false, lastFull: false, full: true, hasCustomIcon
 check(Logic.needsApply(forced: false, lastFull: true, full: true, hasCustomIcon: false), "icon flag missing (after a sync) — redraw")
 check(Logic.needsApply(forced: true, lastFull: true, full: true, hasCustomIcon: true), "user's choice — redraw")
 
+// Painting one pixel of a system-blue part
+let top = Logic.Shade(h: 0.55, s: 0.62, b: 1.0), bottom = Logic.Shade(h: 0.55, s: 0.62, b: 0.75)
+let black = Logic.Shade(h: 0, s: 0, b: 0.12), white = Logic.Shade(h: 0, s: 0, b: 0.97)
+let red = Logic.Shade(h: 0.0, s: 0.8, b: 0.9)
+check(Logic.paint(source: top, target: black, finish: nil, y: 0.3).b < 0.3, "black stays dark")
+check(Logic.paint(source: bottom, target: white, finish: nil, y: 0.8).b > 0.7, "white stays light")
+check(Logic.paint(source: bottom, target: white, finish: nil, y: 0.8).b < Logic.paint(source: top, target: white, finish: nil, y: 0.3).b, "white keeps the shading")
+check(Logic.paint(source: top, target: black, finish: nil, y: 0.3).s == 0, "black has no tint")
+check(Logic.paint(source: top, target: red, finish: nil, y: 0.3).h == 0.0, "a color takes the target hue")
+let c1 = Logic.paint(source: top, target: white, finish: Logic.chrome, y: 0.15), c2 = Logic.paint(source: top, target: white, finish: Logic.chrome, y: 0.45)
+check(abs(c1.b - c2.b) > 0.1 && c1.s < 0.1, "chrome is silver with reflection bands")
+
 // existingLists on a real temporary folder tree
 let fm = FileManager.default
 let tmp = (NSTemporaryDirectory() as NSString).appendingPathComponent("cmf-check-\(ProcessInfo.processInfo.processIdentifier)")

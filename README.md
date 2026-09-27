@@ -25,10 +25,10 @@ has something in it.
 
 1. In Finder, right-click a folder (or several) → **Quick Actions → ColorMyFolder**.
    The same item is also under **Services**.
-2. Click one of your saved color dots, or pick any color with **Other Color** and click
-   **Color Folder**.
-3. **Save Dot** keeps the current color in the palette; right-click a dot → **Delete Dot**
-   removes it. **Restore System Look** gives the folder back its normal icon.
+2. Click one of your saved colors, or pick any color with **Other Color** and click
+   **Color Folder**. Besides plain colors there are black, white and a metallic chrome.
+3. **Save Color** keeps the current color in the palette; right-click a saved color →
+   **Delete Color** removes it. **Restore System Look** gives the folder back its normal icon.
 
 You can also open ColorMyFolder from Applications (or Spotlight) and use **Choose Folders…**
 in its window. The gear in the corner shows where the list of colors is kept and lets you
@@ -52,7 +52,7 @@ does not dismiss it.
 On first launch ColorMyFolder asks where to keep its list of saved colors and colored
 folders. It creates a hidden `.ColorMyFolder` folder in the place you choose and keeps one
 JSON file there. Choose a folder you sync between your Macs — iCloud Drive, Syncthing
-or anything else — and every Mac gets the same dots and the same colored folders. Paths are
+or anything else — and every Mac gets the same saved colors and the same colored folders. Paths are
 stored relative to your home folder, so different account names are fine. If a sync tool
 carries the folder's icon file but not the Finder flag that turns it on, ColorMyFolder on the
 other Mac simply redraws the icon.

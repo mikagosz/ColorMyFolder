@@ -7,8 +7,10 @@ struct RGB: Codable, Hashable {
     var r: Double
     var g: Double
     var b: Double
+    /// `Logic.chrome` for the metallic finish; nil for a plain color.
+    var finish: String?
 
-    init(r: Double, g: Double, b: Double) { self.r = r; self.g = g; self.b = b }
+    init(r: Double, g: Double, b: Double, finish: String? = nil) { self.r = r; self.g = g; self.b = b; self.finish = finish }
 
     init?(_ color: NSColor) {
         guard let c = color.usingColorSpace(.sRGB) else { return nil }

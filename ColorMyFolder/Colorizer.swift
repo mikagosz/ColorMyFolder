@@ -36,7 +36,7 @@ final class Colorizer {
         let full = Logic.hasVisibleContent(names)
         guard Logic.needsApply(forced: forced, lastFull: drawnFull[url.path], full: full,
                                hasCustomIcon: Self.hasCustomIcon(url)) else { return }
-        guard let icon = FolderRenderer.icon(color: color.color, full: full) else {
+        guard let icon = FolderRenderer.icon(for: color, full: full) else {
             log.error("Cannot render icon for \(url.path, privacy: .public)")
             return
         }

@@ -5,29 +5,25 @@ import AppKit
 enum FolderRenderer {
     private static let core = Bundle(path: "/System/Library/CoreServices/CoreTypes.bundle")
 
-    /// Saturation and brightness of the system blue the flaps are drawn in; the target colour
-    /// is applied relative to them, which keeps the light-to-dark gradient of each flap.
-    private static let referenceSaturation: CGFloat = 0.62
-    private static let referenceBrightness: CGFloat = 0.90
-
     /// (point size of the asset, pixel size of the representation)
     private static let sizes: [(Int, Int)] = [
         (16, 16), (16, 32), (32, 32), (32, 64), (128, 128),
         (128, 256), (256, 256), (256, 512), (512, 512), (512, 1024),
     ]
 
-    static func icon(color: NSColor, full: Bool) -> NSImage? {
-        guard let target = color.usingColorSpace(.deviceRGB) else { return nil }
+    static func icon(for rgb: RGB, full: Bool) -> NSImage? {
+        guard let target = rgb.color.usingColorSpace(.deviceRGB) else { return nil }
         var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
         target.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        let shade = Logic.Shade(h: Double(hue), s: Double(saturation), b: Double(brightness))
 
         let icon = NSImage(size: NSSize(width: 512, height: 512))
         for (points, pixels) in sizes {
             guard let back = bitmap("FolderComponent_BackFlap/image_\(points)", pixels),
                   let front = bitmap("FolderComponent_FrontFlap/image_\(points)", pixels),
                   let out = emptyBitmap(pixels) else { return nil }
-            recolor(back, hue: hue, saturation: saturation, brightness: brightness)
-            recolor(front, hue: hue, saturation: saturation, brightness: brightness)
+            recolor(back, target: shade, finish: rgb.finish)
+            recolor(front, target: shade, finish: rgb.finish)
             out.size = NSSize(width: points, height: points)
 
             NSGraphicsContext.saveGraphicsState()
@@ -65,9 +61,10 @@ enum FolderRenderer {
         return rep
     }
 
-    private static func recolor(_ rep: NSBitmapImageRep, hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+    private static func recolor(_ rep: NSBitmapImageRep, target: Logic.Shade, finish: String?) {
         guard let data = rep.bitmapData else { return }
-        for i in 0..<(rep.pixelsWide * rep.pixelsHigh) {
+        let width = rep.pixelsWide, height = rep.pixelsHigh
+        for i in 0..<(width * height) {
             let o = i * 4
             let alpha = CGFloat(data[o + 3]) / 255
             if alpha == 0 { continue }
@@ -76,9 +73,9 @@ enum FolderRenderer {
                                  blue: CGFloat(data[o + 2]) / 255 / alpha, alpha: 1)
             var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
             source.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            let result = NSColor(deviceHue: hue,
-                                 saturation: min(1, s * saturation / referenceSaturation),
-                                 brightness: min(1, b * brightness / referenceBrightness), alpha: 1)
+            let painted = Logic.paint(source: Logic.Shade(h: Double(h), s: Double(s), b: Double(b)), target: target,
+                                      finish: finish, y: Double(i / width) / Double(height))
+            let result = NSColor(deviceHue: painted.h, saturation: painted.s, brightness: painted.b, alpha: 1)
             data[o] = byte(result.redComponent * alpha)
             data[o + 1] = byte(result.greenComponent * alpha)
             data[o + 2] = byte(result.blueComponent * alpha)
