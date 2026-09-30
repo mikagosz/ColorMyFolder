@@ -142,4 +142,14 @@ enum Logic {
     static func needsApply(forced: Bool, lastFull: Bool?, full: Bool, hasCustomIcon: Bool) -> Bool {
         forced || lastFull != full || !hasCustomIcon
     }
+
+    /// macOS 27 opens login items without the "launched as login item" flag, so a launch soon
+    /// after the user logged in on the console counts as a start at login too.
+    static let loginWindow: TimeInterval = 180
+
+    static func startedWithLogin(launch: Date, login: Date?) -> Bool {
+        guard let login else { return false }
+        let since = launch.timeIntervalSince(login)
+        return since >= 0 && since < loginWindow
+    }
 }

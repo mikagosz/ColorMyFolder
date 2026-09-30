@@ -1,4 +1,5 @@
 import AppKit
+import Darwin
 import ServiceManagement
 import SwiftUI
 
@@ -22,6 +23,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                   event.paramDescriptor(forKeyword: AEKeyword(keyAEPropData))?.enumCodeValue == OSType(keyAELaunchedAsLogInItem) {
             launch = .atLogin
         }
+        if launch == .normal && Logic.startedWithLogin(launch: Date(), login: Self.consoleLoginTime()) {
+            launch = .atLogin
+        }
+    }
+
+    /// When the user last logged in on this Mac's screen — the same record `last` reads.
+    private static func consoleLoginTime() -> Date? {
+        var latest: Date?
+        setutxent()
+        defer { endutxent() }
+        while let entry = getutxent() {
+            var record = entry.pointee
+            guard record.ut_type == USER_PROCESS else { continue }
+            let line = withUnsafeBytes(of: &record.ut_line) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+            let user = withUnsafeBytes(of: &record.ut_user) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+            guard line == "console", user == NSUserName() else { continue }
+            let time = Date(timeIntervalSince1970: TimeInterval(record.ut_tv.tv_sec))
+            if latest.map({ time > $0 }) ?? true { latest = time }
+        }
+        return latest
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {

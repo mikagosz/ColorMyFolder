@@ -23,6 +23,12 @@ check(Logic.needsApply(forced: false, lastFull: false, full: true, hasCustomIcon
 check(Logic.needsApply(forced: false, lastFull: true, full: true, hasCustomIcon: false), "icon flag missing (after a sync) — redraw")
 check(Logic.needsApply(forced: true, lastFull: true, full: true, hasCustomIcon: true), "user's choice — redraw")
 
+let login = Date(timeIntervalSince1970: 1_000_000)
+check(Logic.startedWithLogin(launch: login.addingTimeInterval(38), login: login), "started 38 s after login — at login, no window")
+check(!Logic.startedWithLogin(launch: login.addingTimeInterval(600), login: login), "started 10 min after login — by the user, window")
+check(!Logic.startedWithLogin(launch: login.addingTimeInterval(-5), login: login), "started before this login — not at login")
+check(!Logic.startedWithLogin(launch: login, login: nil), "login time unknown — not at login")
+
 // Painting one pixel of a system-blue part
 let top = Logic.Shade(h: 0.55, s: 0.62, b: 1.0), bottom = Logic.Shade(h: 0.55, s: 0.62, b: 0.75)
 let black = Logic.Shade(h: 0, s: 0, b: 0.12), white = Logic.Shade(h: 0, s: 0, b: 0.97)
