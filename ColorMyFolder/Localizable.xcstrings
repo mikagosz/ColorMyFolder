@@ -21,6 +21,16 @@
         }
       }
     },
+    "A newer version is available": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jest nowsza wersja"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "pl": {
@@ -37,6 +47,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zmień…"
+          }
+        }
+      }
+    },
+    "Check Now": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprawdź teraz"
+          }
+        }
+      }
+    },
+    "Check for updates once a month": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprawdzaj aktualizacje raz w miesiącu"
           }
         }
       }
@@ -91,6 +121,16 @@
         }
       }
     },
+    "Close": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamknij"
+          }
+        }
+      }
+    },
     "Color Folder": {
       "localizations": {
         "pl": {
@@ -111,12 +151,62 @@
         }
       }
     },
+    "ColorMyFolder is still drawing folder icons — the update would cut that off. Click again when it finishes.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder jeszcze rysuje ikony folderów — aktualizacja by to przerwała. Kliknij ponownie, gdy skończy."
+          }
+        }
+      }
+    },
+    "ColorMyFolder — Update": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder — Aktualizacja"
+          }
+        }
+      }
+    },
     "Colors and folders are not saved until you choose where to keep the list — use the gear.": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Kolory i foldery nie są zapisywane, dopóki nie wybierzesz miejsca na listę — użyj zębatki."
+          }
+        }
+      }
+    },
+    "Could not check for updates": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie udało się sprawdzić aktualizacji"
+          }
+        }
+      }
+    },
+    "Could not download the new version.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie udało się pobrać nowej wersji."
+          }
+        }
+      }
+    },
+    "Could not install the new version. The app keeps running the current one.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nie udało się zainstalować nowej wersji. Program działa dalej w obecnej."
           }
         }
       }
@@ -131,12 +221,62 @@
         }
       }
     },
+    "Download manually and replace it yourself": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pobierz ręcznie i podmień sam"
+          }
+        }
+      }
+    },
+    "Downloading and verifying the package…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pobieram i sprawdzam paczkę…"
+          }
+        }
+      }
+    },
     "Folders: %lld": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Foldery: %lld"
+          }
+        }
+      }
+    },
+    "Install and Restart": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zainstaluj i uruchom ponownie"
+          }
+        }
+      }
+    },
+    "Installing — the app will restart in a moment…": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instaluję — za chwilę program uruchomi się ponownie…"
+          }
+        }
+      }
+    },
+    "Last: %@": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ostatnio: %@"
           }
         }
       }
@@ -167,6 +307,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Brak zapisanych kolorów — wybierz kolor niżej i kliknij „Zapisz kolor”."
+          }
+        }
+      }
+    },
+    "Not checked yet": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeszcze nie sprawdzano"
           }
         }
       }
@@ -261,6 +411,16 @@
         }
       }
     },
+    "Skip This Version": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pomiń tę wersję"
+          }
+        }
+      }
+    },
     "Start a New List": {
       "localizations": {
         "pl": {
@@ -271,12 +431,62 @@
         }
       }
     },
+    "The app asks fractal8.eu for the number of the newest version — it sends nothing else. A new version installs only when you click “Install”.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Program pyta stronę fractal8.eu o numer najnowszej wersji — nic więcej nie wysyła. Nowa wersja instaluje się dopiero, gdy klikniesz „Zainstaluj”."
+          }
+        }
+      }
+    },
+    "The app downloads the new version, checks it, replaces itself and restarts. Your colors, colored folders and settings stay.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Program pobierze nową wersję, sprawdzi ją, podmieni się i uruchomi ponownie. Kolory, pokolorowane foldery i ustawienia zostają."
+          }
+        }
+      }
+    },
+    "The app sits where it cannot be overwritten (e.g. opened straight from Downloads). Move it to the Applications folder or download the new version manually.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Program stoi w miejscu, którego nie da się nadpisać (np. otwarty prosto z Pobranych). Przenieś go do katalogu Aplikacje albo pobierz nową wersję ręcznie."
+          }
+        }
+      }
+    },
     "The list cannot be read right now, so changes are not saved. If it is in iCloud Drive, wait until it downloads.": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Listy nie da się teraz odczytać, więc zmiany nie są zapisywane. Jeśli leży w iCloud Drive, poczekaj, aż się pobierze."
+          }
+        }
+      }
+    },
+    "The new version is installed, but the restart failed. Quit and reopen the app manually.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nowa wersja jest zainstalowana, ale restart się nie udał. Zamknij i otwórz program ręcznie."
+          }
+        }
+      }
+    },
+    "The package address leads outside fractal8.eu — the app will not download it.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adres paczki prowadzi poza serwer fractal8.eu — program jej nie pobierze."
           }
         }
       }
@@ -297,6 +507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "W tym miejscu jest już lista ColorMyFolder"
+          }
+        }
+      }
+    },
+    "Updates": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualizacje"
           }
         }
       }
@@ -341,12 +561,42 @@
         }
       }
     },
+    "Version %@.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wersja %@."
+          }
+        }
+      }
+    },
     "Where should ColorMyFolder keep its list of colors and colored folders? It creates a hidden .ColorMyFolder folder in the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.": {
       "localizations": {
         "pl": {
           "stringUnit": {
             "state": "translated",
             "value": "Gdzie trzymać listę kolorów i pokolorowanych folderów? ColorMyFolder utworzy w wybranym miejscu ukryty folder .ColorMyFolder. Wybierz folder synchronizowany między Makami, a oba będą miały te same kolory."
+          }
+        }
+      }
+    },
+    "You are up to date": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masz najnowszą wersję"
+          }
+        }
+      }
+    },
+    "You have %@, version %@ is available.": {
+      "localizations": {
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masz %@, dostępna jest %@."
           }
         }
       }

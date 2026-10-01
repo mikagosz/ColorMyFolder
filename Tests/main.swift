@@ -105,6 +105,18 @@ check(kept.contains("\"format\" : 2") && kept.contains("\"gloss\" : 0.7") && kep
 store.reload()
 check(store.data.palette.first == RGB(r: 0.5, g: 0.5, b: 0.5, finish: "chrome"), "a color is the same color whatever else is stored with it")
 
+// Many folders at once
+write(#"{"palette":[],"folders":[]}"#)
+let blue = RGB(r: 0, g: 0, b: 1), pink = RGB(r: 1, g: 0.4, b: 0.7)
+let a = URL(fileURLWithPath: "/h/A"), b = URL(fileURLWithPath: "/h/B")
+store.setColor(blue, for: [a, b, a])
+check(store.data.folders.map(\.path) == ["~/A", "~/B"], "several folders colored in one go, each once")
+store.setColor(pink, for: [a])
+check(store.data.folders.count == 2 && store.color(of: a) == pink && store.color(of: b) == blue, "a new color replaces the old one, the other folder keeps its own")
+store.removeColor(for: [a, b])
+store.reload()
+check(store.data.folders.isEmpty, "restoring several folders takes them all off the list")
+
 write("{ not json")
 let broken = fileText()
 store.addToPalette(RGB(r: 0.2, g: 0.2, b: 0.2))
@@ -121,6 +133,50 @@ check(!store.readable, "a missing list folder (disk not mounted) is not an empty
 
 try? fm.removeItem(atPath: storeTmp)
 defaults.removePersistentDomain(forName: suite)
+
+// Only plain folders get an icon — an .app is a folder to the system, but an icon inside breaks its signature
+let kinds = (NSTemporaryDirectory() as NSString).appendingPathComponent("cmf-kinds-\(ProcessInfo.processInfo.processIdentifier)")
+try! fm.createDirectory(atPath: kinds + "/Plain", withIntermediateDirectories: true)
+try! fm.createDirectory(atPath: kinds + "/Some.app/Contents", withIntermediateDirectories: true)
+fm.createFile(atPath: kinds + "/file.txt", contents: Data())
+check(Logic.isPlainFolder(URL(fileURLWithPath: kinds + "/Plain")), "a plain folder can be colored")
+check(!Logic.isPlainFolder(URL(fileURLWithPath: kinds + "/Some.app")), "an app bundle cannot")
+check(!Logic.isPlainFolder(URL(fileURLWithPath: kinds + "/file.txt")), "a file cannot")
+check(!Logic.isPlainFolder(URL(fileURLWithPath: kinds + "/Missing")), "a missing folder cannot")
+
+// Window height the first time it opens
+check(Logic.initialWindowHeight(colors: 0) == Logic.initialWindowHeight(colors: 8), "no colors yet — room for one row")
+check(Logic.initialWindowHeight(colors: 24) > Logic.initialWindowHeight(colors: 8), "more colors — a taller window")
+check(Logic.initialWindowHeight(colors: 300) == Logic.maxWindowHeight, "300 colors — capped, the rest scrolls")
+
+// Updates: which addresses the app may open or download
+check(DownloadAddress.allowed(URL(string: "https://downloads.fractal8.eu/ColorMyFolder/ColorMyFolder%200.1.16.zip")!), "our download server over https")
+check(!DownloadAddress.allowed(URL(string: "http://downloads.fractal8.eu/x.zip")!), "plain http is refused")
+check(!DownloadAddress.allowed(URL(string: "https://downloads.fractal8.eu.evil.example/x.zip")!), "a look-alike host is refused")
+check(!DownloadAddress.allowed(URL(string: "file:///Applications/Calculator.app")!), "a file address is refused")
+check(!DownloadAddress.allowed(URL(string: "https://user:pw@downloads.fractal8.eu/x.zip")!), "a login in the address is refused")
+
+// Updates: the version is read from the app on disk
+try! fm.createDirectory(atPath: kinds + "/New.app/Contents", withIntermediateDirectories: true)
+try! PropertyListSerialization.data(fromPropertyList: ["CFBundleShortVersionString": "9.9.9"], format: .xml, options: 0)
+    .write(to: URL(fileURLWithPath: kinds + "/New.app/Contents/Info.plist"))
+check(RestartAfterUpdate.versionOnDisk(URL(fileURLWithPath: kinds + "/New.app")) == "9.9.9", "version read from the Info.plist on disk")
+check(RestartAfterUpdate.versionOnDisk(URL(fileURLWithPath: kinds + "/Plain")) == nil, "no Info.plist — no version")
+check(!RestartAfterUpdate.writablePlace(URL(fileURLWithPath: kinds + "/Plain")), "only an .app can be replaced")
+
+// Updates: the restart helper waits for the old process to end before it opens the new app
+let old = Process()
+old.executableURL = URL(fileURLWithPath: "/bin/sleep")
+old.arguments = ["1"]
+try! old.run()
+let opened = URL(fileURLWithPath: kinds + "/opened")
+try! RestartAfterUpdate.launchAfterExit(pid: old.processIdentifier, app: opened, opener: "/usr/bin/touch")
+Thread.sleep(forTimeInterval: 0.5)
+check(!fm.fileExists(atPath: opened.path), "the new app is not opened while the old one still runs")
+old.waitUntilExit()
+Thread.sleep(forTimeInterval: 1.0)
+check(fm.fileExists(atPath: opened.path), "the new app is opened once the old one has ended")
+try? fm.removeItem(atPath: kinds)
 
 print(failures == 0 ? "ALL OK" : "FAILURES: \(failures)")
 if failures > 0 { fatalError() }

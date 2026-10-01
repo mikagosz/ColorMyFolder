@@ -52,6 +52,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         QuickAction.install()
         registerLoginItem()
 
+        Updates.shared.isBusy = { [weak self] in self?.colorizer.isWorking ?? false }
+        Updates.shared.start()
+
         colorizer.refreshAll()
         rewatch()
 
@@ -69,7 +72,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Finder → right click → Quick Actions (or Services) → ColorMyFolder runs
     /// `open -b com.mikagosz.ColorMyFolder <folders>`, which lands here.
     func application(_ application: NSApplication, open urls: [URL]) {
-        let folders = urls.filter { (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true }
+        let folders = urls.filter(Logic.isPlainFolder)
         guard !folders.isEmpty else { return }
         if store.directory == nil && !askedForList { setUpList() }
         store.reload()
@@ -84,7 +87,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showPicker(for urls: [URL]) {
-        panel?.close()
         let view = PickerView(
             folders: urls,
             palette: store.data.palette,
@@ -92,7 +94,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             listUnreadable: store.directory != nil && !store.readable,
             onPick: { [weak self] folders, rgb in
                 guard let self, self.confirmReplacingIcons(of: folders, restoring: false) else { return }
-                folders.forEach { self.colorizer.apply(rgb, to: $0) }
+                self.colorizer.apply(rgb, to: folders)
                 self.rewatch()
                 self.panel?.close()
             },
@@ -100,7 +102,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             onForget: { [weak self] rgb in self?.store.removeFromPalette(rgb) },
             onRestore: { [weak self] folders in
                 guard let self, self.confirmReplacingIcons(of: folders, restoring: true) else { return }
-                folders.forEach { self.colorizer.clear($0) }
+                self.colorizer.clear(folders)
                 self.rewatch()
                 self.panel?.close()
             },
@@ -114,21 +116,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 DispatchQueue.main.async { self.showPicker(for: urls) }
                 return self.store.directory?.path
             })
-        // A normal window (close, minimize) that sizes itself to the content.
-        let host = NSHostingController(rootView: view)
-        host.sizingOptions = [.preferredContentSize]
-        let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable],
+        let panel = self.panel ?? makePanel(colors: store.data.palette.count)
+        // A fresh identity each time: the window's state starts from these folders and colors.
+        (panel.contentViewController as? NSHostingController<AnyView>)?.rootView = AnyView(view.id(UUID()))
+        NSApp.activate()
+        panel.makeKeyAndOrderFront(nil)
+    }
+
+    private static let windowFrameName = "ColorMyFolderWindow"
+
+    /// One window for the whole run, reused on every open. It can be resized, and macOS keeps the
+    /// size and place the user gave it (frame autosave) across opens and launches. The first time
+    /// it is tall enough for the saved colors, up to a limit — beyond that the colors scroll.
+    private func makePanel(colors: Int) -> NSPanel {
+        let host = NSHostingController(rootView: AnyView(EmptyView()))
+        host.sizingOptions = []
+        let panel = NSPanel(contentRect: .zero, styleMask: [.titled, .closable, .miniaturizable, .resizable],
                             backing: .buffered, defer: false)
         panel.title = "ColorMyFolder"
         panel.contentViewController = host
         panel.isReleasedWhenClosed = false
         // Panels hide when the app loses focus; a stray click on the desktop would close the picker.
+        // The window stays on the normal level, so other apps' windows can cover it.
         panel.hidesOnDeactivate = false
-        panel.level = .floating
-        panel.center()
+        panel.contentMinSize = NSSize(width: 340, height: 280)
+        panel.setContentSize(NSSize(width: 360, height: Logic.initialWindowHeight(colors: colors)))
+        if !panel.setFrameUsingName(Self.windowFrameName) { panel.center() }
+        panel.setFrameAutosaveName(Self.windowFrameName)
         self.panel = panel
-        NSApp.activate()
-        panel.makeKeyAndOrderFront(nil)
+        return panel
     }
 
     /// Folders with a custom icon of their own lose it for good — ask first.

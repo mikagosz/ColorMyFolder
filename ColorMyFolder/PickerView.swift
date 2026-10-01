@@ -10,6 +10,8 @@ struct PickerView: View {
     let listUnreadable: Bool
     @State private var custom: Color = .pink
     @State private var showSettings = false
+    @ObservedObject private var updates = Updates.shared
+    @AppStorage(Setting.checkUpdates) private var checkUpdates = true
 
     let onPick: ([URL], RGB) -> Void
     let onSave: (RGB) -> Void
@@ -47,7 +49,7 @@ struct PickerView: View {
                 Label(problem, systemImage: "exclamationmark.triangle")
                     .font(.callout).foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(width: 308, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             HStack(spacing: 10) {
@@ -64,22 +66,28 @@ struct PickerView: View {
                 Text("No saved colors yet — pick a color below and click “Save Color”.")
                     .font(.callout).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                    .frame(width: 308, alignment: .leading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             } else {
-                LazyVGrid(columns: Array(repeating: GridItem(.fixed(26), spacing: 10), count: 8), alignment: .leading, spacing: 10) {
-                    ForEach(palette, id: \.self) { rgb in
-                        Button { onPick(folders, rgb) } label: { Self.dot(rgb) }
-                            .buttonStyle(.plain)
-                            .disabled(folders.isEmpty)
-                            .help("Color Folder")
-                            .contextMenu {
-                                Button("Delete Color") {
-                                    onForget(rgb)
-                                    palette.removeAll { $0 == rgb }
+                // The colors take whatever height the window has and scroll beyond it, so the
+                // buttons below always stay on screen; a wider window fits more in a row.
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 26, maximum: 26), spacing: 10)], alignment: .leading, spacing: 10) {
+                        ForEach(palette, id: \.self) { rgb in
+                            Button { onPick(folders, rgb) } label: { Self.dot(rgb) }
+                                .buttonStyle(.plain)
+                                .disabled(folders.isEmpty)
+                                .help("Color Folder")
+                                .contextMenu {
+                                    Button("Delete Color") {
+                                        onForget(rgb)
+                                        palette.removeAll { $0 == rgb }
+                                    }
                                 }
-                            }
+                        }
                     }
+                    .padding(1)
                 }
+                .frame(maxHeight: .infinity)
             }
 
             Divider()
@@ -107,7 +115,7 @@ struct PickerView: View {
             }
         }
         .padding(16)
-        .frame(minWidth: 340, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     /// Without a readable list the window still works, but nothing it changes is remembered.
@@ -156,7 +164,30 @@ struct PickerView: View {
                     showSettings = false
                 }
             }
+
+            Divider()
+
+            Text("Updates").font(.headline)
+            Toggle("Check for updates once a month", isOn: $checkUpdates)
+                .onChange(of: checkUpdates) { _, on in updates.enabled = on }
+            HStack {
+                Text(lastCheckText).font(.callout).foregroundStyle(.secondary)
+                Spacer()
+                Button("Check Now") {
+                    showSettings = false
+                    Task { await updates.check(manually: true) }
+                }
+            }
+            Text("The app asks fractal8.eu for the number of the newest version — it sends nothing else. A new version installs only when you click “Install”.")
+                .font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .frame(width: 280, alignment: .leading)
         .padding(14)
+    }
+
+    private var lastCheckText: String {
+        guard let date = updates.lastCheck else { return String(localized: "Not checked yet") }
+        return String(localized: "Last: \(date.formatted(date: .abbreviated, time: .shortened))")
     }
 }

@@ -12,7 +12,8 @@ enum FolderRenderer {
     ]
 
     /// Finished icons by color and empty/full — the same color on many folders is drawn once.
-    /// One icon holds about 6 MB of bitmaps, so only a few are kept.
+    /// One icon holds about 6 MB of bitmaps, so only a few are kept. Used only from Colorizer's
+    /// drawing queue, one folder at a time, so it needs no lock.
     private static var cache: [String: NSImage] = [:]
     private static let cacheLimit = 6
 

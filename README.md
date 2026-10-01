@@ -51,7 +51,8 @@ in its window. The gear in the corner shows where the list of colors is kept and
 move it.
 
 The window stays open until you close it or pick a color, so a stray click on the desktop
-does not dismiss it.
+does not dismiss it. Other windows can still cover it. You can resize it — it remembers the size
+and place you give it — and when you have many saved colors, they scroll.
 
 ## How it works
 
@@ -62,6 +63,18 @@ does not dismiss it.
 - ColorMyFolder runs in the background (no Dock icon) and starts at login. It watches the
   colored folders and redraws an icon only when a folder goes from empty to non-empty or
   back, so the paper sheet behaves like Finder's own.
+- Icons are drawn in the background, one folder at a time, so the app stays responsive even
+  when it has hundreds of folders to draw at once (for example on a second Mac right after
+  the list arrives) — you can watch the colors appear one by one.
+- Packages such as `.app` bundles are never colored: Finder shows them as files, and an icon
+  written into one would break its code signature.
+
+## Updates
+
+Once a month ColorMyFolder asks fractal8.eu whether there is a newer version. If there is, it
+shows a window with **Install and Restart**, **Skip This Version** and a link to download it
+yourself. Nothing installs until you click. The gear in the window has the switch to turn the
+monthly check off and a **Check Now** button.
 
 ## Your colors on more than one Mac
 
@@ -124,12 +137,17 @@ The logic check can also be run on its own, without Xcode: `./Tests/check.sh`.
    on a folder otherwise).
 2. Quit ColorMyFolder in Activity Monitor and remove it from *System Settings → General → Login Items*.
 3. Delete `ColorMyFolder.app`, `~/Library/Services/ColorMyFolder.workflow`, the settings file
-   `~/Library/Preferences/com.mikagosz.ColorMyFolder.plist` and the hidden `.ColorMyFolder`
-   folder in the place you chose on first launch.
+   `~/Library/Preferences/com.mikagosz.ColorMyFolder.plist`, the folder
+   `~/Library/Application Support/com.mikagosz.ColorMyFolder` (left by the update component, it
+   stays empty) and the hidden `.ColorMyFolder` folder in the place you chose on first launch.
 
 ## Privacy
 
-ColorMyFolder never connects to the network and sends nothing anywhere. On your Mac it:
+The only time ColorMyFolder goes online is the update check: once a month (or when you click
+**Check Now**) it reads the number of the newest version from fractal8.eu, and it downloads a
+new version only when you click **Install and Restart**. Like any web request, the check shows
+your IP address to the server. Nothing else leaves your Mac — no crash reports, no statistics,
+no list of your folders. You can turn the check off under the gear. On your Mac it:
 
 - writes the icons of the folders you color and reads what is in them (to know whether a
   folder is empty),
@@ -141,7 +159,8 @@ ColorMyFolder never connects to the network and sends nothing anywhere. On your 
 
 ## Licence
 
-The source code is released under the [MIT licence](LICENSE).
+The source code is released under the [MIT licence](LICENSE). Updates use
+[ErrorUpdate](https://github.com/mikagosz/ErrorUpdate) by the same author, also MIT.
 
 The application artwork is not covered by it — see [NOTICE](NOTICE). The folder parts (also used
 for the app icon, which `Tools/make-icon.swift` draws at build time) and the `paintpalette`

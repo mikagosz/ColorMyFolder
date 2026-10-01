@@ -11,6 +11,13 @@ enum Logic {
         names.contains { !$0.hasPrefix(".") && $0 != iconFileName }
     }
 
+    /// A folder the user can color: a directory, but not a package such as an `.app` — Finder shows a
+    /// package as one file, and an icon written into it breaks its code signature.
+    static func isPlainFolder(_ url: URL) -> Bool {
+        guard let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .isPackageKey]) else { return false }
+        return values.isDirectory == true && values.isPackage != true
+    }
+
     /// Paths are stored relative to the home folder, so one list works on every Mac
     /// regardless of the account name.
     static func storedPath(_ absolute: String, home: String) -> String {
@@ -141,6 +148,16 @@ enum Logic {
     /// Syncthing carries the icon file but not the Finder flag that switches it on.
     static func needsApply(forced: Bool, lastFull: Bool?, full: Bool, hasCustomIcon: Bool) -> Bool {
         forced || lastFull != full || !hasCustomIcon
+    }
+
+    /// Height of the window the first time it opens: room for every saved color (8 in a row,
+    /// 36 pt a row) on top of the rest of the window, but never taller than `maxWindowHeight` —
+    /// more colors scroll. After that the window keeps the size the user gives it.
+    static let maxWindowHeight = 560.0
+
+    static func initialWindowHeight(colors: Int) -> Double {
+        let rows = (max(colors, 1) + 7) / 8
+        return min(230 + Double(rows) * 36, maxWindowHeight)
     }
 
     /// macOS 27 opens login items without the "launched as login item" flag, so a launch soon

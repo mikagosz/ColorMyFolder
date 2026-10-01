@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C20000000000000000000E1A /* ErrorUpdate in Frameworks */ = {isa = PBXBuildFile; productRef = C20000000000000000000E2A /* ErrorUpdate */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C2000000000000000000003A /* ColorMyFolder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorMyFolder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C20000000000000000000E1A /* ErrorUpdate in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ColorMyFolder;
 			packageProductDependencies = (
+				C20000000000000000000E2A /* ErrorUpdate */,
 			);
 			productName = ColorMyFolder;
 			productReference = C2000000000000000000003A /* ColorMyFolder.app */;
@@ -95,6 +101,9 @@
 			);
 			mainGroup = C2000000000000000000005A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C20000000000000000000E3A /* XCRemoteSwiftPackageReference "ErrorUpdate" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C2000000000000000000006A /* Products */;
 			projectDirPath = "";
@@ -219,7 +228,7 @@
 				CODE_SIGN_IDENTITY = 85C274E1928B36D546B36B8462A879E6A97BFC22;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -234,7 +243,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.15;
+				MARKETING_VERSION = 0.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikagosz.ColorMyFolder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -250,7 +259,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -265,7 +274,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.15;
+				MARKETING_VERSION = 0.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikagosz.ColorMyFolder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -295,6 +304,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C20000000000000000000E3A /* XCRemoteSwiftPackageReference "ErrorUpdate" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mikagosz/ErrorUpdate.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C20000000000000000000E2A /* ErrorUpdate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C20000000000000000000E3A /* XCRemoteSwiftPackageReference "ErrorUpdate" */;
+			productName = ErrorUpdate;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C2000000000000000000001A /* Project object */;
 }

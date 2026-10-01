@@ -252,18 +252,27 @@ final class Store {
         return data.folders.first { $0.path == key }?.color
     }
 
-    func setColor(_ color: RGB, for url: URL) {
-        let key = Logic.storedPath(url.path, home: home)
+    /// Many folders at once are one read and one write of the list, not one per folder.
+    func setColor(_ color: RGB, for urls: [URL]) {
+        var keys: [String] = []
+        for url in urls {
+            let key = Logic.storedPath(url.path, home: home)
+            if !keys.contains(key) { keys.append(key) }
+        }
         change { data in
-            data.folders.removeAll { $0.path == key }
-            data.folders.append(ColoredFolder(path: key, color: color))
+            data.folders.removeAll { keys.contains($0.path) }
+            data.folders += keys.map { ColoredFolder(path: $0, color: color) }
         }
     }
 
-    func removeColor(for url: URL) {
-        let key = Logic.storedPath(url.path, home: home)
-        change { data in data.folders.removeAll { $0.path == key } }
+    func setColor(_ color: RGB, for url: URL) { setColor(color, for: [url]) }
+
+    func removeColor(for urls: [URL]) {
+        let keys = Set(urls.map { Logic.storedPath($0.path, home: home) })
+        change { data in data.folders.removeAll { keys.contains($0.path) } }
     }
+
+    func removeColor(for url: URL) { removeColor(for: [url]) }
 
     func addToPalette(_ color: RGB) {
         change { data in if !data.palette.contains(color) { data.palette.append(color) } }

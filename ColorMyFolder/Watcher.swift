@@ -6,16 +6,21 @@ final class Watcher {
     private var stream: FSEventStreamRef?
     private var colored: Set<String> = []
     private var listDirectory: String?
+    /// What the running stream watches. Asked to watch the same again, it keeps that stream:
+    /// a new one starts "from now", and a change made in between would be lost.
+    private var watched: [String] = []
     private let onChange: () -> Void
 
     init(onChange: @escaping () -> Void) { self.onChange = onChange }
 
     func watch(colored folders: [String], listDirectory: String?) {
+        let paths = folders + (listDirectory.map { [$0] } ?? [])
+        if stream != nil && paths == watched { return }
         stop()
         colored = Set(folders.map(Self.real))
         self.listDirectory = listDirectory.map(Self.real)
-        let paths = folders + (listDirectory.map { [$0] } ?? [])
         guard !paths.isEmpty else { return }
+        watched = paths
         var context = FSEventStreamContext(version: 0, info: Unmanaged.passUnretained(self).toOpaque(),
                                            retain: nil, release: nil, copyDescription: nil)
         let callback: FSEventStreamCallback = { _, info, count, eventPaths, flags, _ in
@@ -47,6 +52,7 @@ final class Watcher {
         FSEventStreamInvalidate(stream)
         FSEventStreamRelease(stream)
         self.stream = nil
+        watched = []
     }
 
     /// FSEvents reports paths with symlinks resolved; compare like with like.
