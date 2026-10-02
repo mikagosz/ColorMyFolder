@@ -169,4 +169,12 @@ enum Logic {
         let since = launch.timeIntervalSince(login)
         return since >= 0 && since < loginWindow
     }
+
+    /// The system may follow a start at login with its own "reopen" a moment later; the user's
+    /// click on the app icon after that still opens the window.
+    static let reopenQuiet: TimeInterval = 30
+
+    static func reopenFromLogin(atLogin: Bool, since launch: TimeInterval) -> Bool {
+        atLogin && launch < reopenQuiet
+    }
 }

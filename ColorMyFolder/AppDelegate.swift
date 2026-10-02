@@ -15,17 +15,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Finder's folders and the launch itself both find the place unset.
     private var askedForList = false
 
+    private let launchedAt = Date()
+
     func applicationWillFinishLaunching(_ notification: Notification) {
-        guard let event = NSAppleEventManager.shared().currentAppleEvent else { return }
-        if event.eventID == AEEventID(kAEOpenDocuments) {
+        // No early return without an event: macOS 27's loginwindow can start the app with none,
+        // and the login-time check below must still run.
+        let event = NSAppleEventManager.shared().currentAppleEvent
+        if event?.eventID == AEEventID(kAEOpenDocuments) {
             launch = .withFolders
-        } else if event.eventID == AEEventID(kAEOpenApplication),
-                  event.paramDescriptor(forKeyword: AEKeyword(keyAEPropData))?.enumCodeValue == OSType(keyAELaunchedAsLogInItem) {
+        } else if event?.eventID == AEEventID(kAEOpenApplication),
+                  event?.paramDescriptor(forKeyword: AEKeyword(keyAEPropData))?.enumCodeValue == OSType(keyAELaunchedAsLogInItem) {
             launch = .atLogin
         }
-        if launch == .normal && Logic.startedWithLogin(launch: Date(), login: Self.consoleLoginTime()) {
+        if launch == .normal && Logic.startedWithLogin(launch: launchedAt, login: Self.consoleLoginTime()) {
             launch = .atLogin
         }
+        let eventName = event.map { String(format: "%08x", $0.eventID) } ?? "none"
+        log.info("Launch: \(String(describing: self.launch), privacy: .public), event \(eventName, privacy: .public)")
     }
 
     /// When the user last logged in on this Mac's screen — the same record `last` reads.
@@ -81,6 +87,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Opening the app again (Finder, Spotlight, Dock) shows the window.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        // A start at login can be followed by a "reopen" from the system itself, not the user.
+        if Logic.reopenFromLogin(atLogin: launch == .atLogin, since: Date().timeIntervalSince(launchedAt)) {
+            log.info("Reopen right after a start at login — no window")
+            return false
+        }
         store.reload()
         showPicker(for: [])
         return false
