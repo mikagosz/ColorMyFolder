@@ -181,5 +181,17 @@ Thread.sleep(forTimeInterval: 1.0)
 check(fm.fileExists(atPath: opened.path), "the new app is opened once the old one has ended")
 try? fm.removeItem(atPath: kinds)
 
+// Help: every text of the Help window has its Polish translation, 1–4 steps per section.
+let catalog = (try? JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: "ColorMyFolder/Localizable.xcstrings")))) as? [String: Any]
+let strings = catalog?["strings"] as? [String: Any] ?? [:]
+func polish(_ key: String) -> String? {
+    let loc = (strings[key] as? [String: Any])?["localizations"] as? [String: Any]
+    return ((loc?["pl"] as? [String: Any])?["stringUnit"] as? [String: Any])?["value"] as? String
+}
+check(polish("Save Color") == "Zapisz kolor", "string catalog read (control: Save Color → Zapisz kolor)")
+let untranslated = HelpContent.allStrings.filter { polish($0) == nil }
+check(untranslated.isEmpty, "every Help text has Polish (missing: \(untranslated))")
+check(HelpContent.sections.allSatisfy { (1...4).contains($0.steps.count) }, "every Help section has 1–4 steps")
+
 print(failures == 0 ? "ALL OK" : "FAILURES: \(failures)")
 if failures > 0 { fatalError() }

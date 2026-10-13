@@ -600,6 +600,924 @@
           }
         }
       }
+    },
+    "ColorMyFolder Help": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder Help"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pomoc ColorMyFolder"
+          }
+        }
+      }
+    },
+    "Help": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pomoc"
+          }
+        }
+      }
+    },
+    "Getting started with ColorMyFolder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Getting started with ColorMyFolder"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pierwsze kroki z ColorMyFolder"
+          }
+        }
+      }
+    },
+    "Any color for any folder, in the look of a real macOS folder — not just the seven tag colors.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Any color for any folder, in the look of a real macOS folder — not just the seven tag colors."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dowolny kolor dla dowolnego folderu, w wyglądzie prawdziwego folderu macOS — nie tylko siedem kolorów tagów."
+          }
+        }
+      }
+    },
+    "Straight from Finder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Straight from Finder"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prosto z Findera"
+          }
+        }
+      }
+    },
+    "ColorMyFolder waits in Finder's menu. Pick the folders there, and the window opens with them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder waits in Finder's menu. Pick the folders there, and the window opens with them."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder czeka w menu Findera. Wybierz tam foldery, a okno otworzy się już z nimi."
+          }
+        }
+      }
+    },
+    "Right-click a folder, or several.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right-click a folder, or several."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kliknij prawym przyciskiem folder albo kilka folderów."
+          }
+        }
+      }
+    },
+    "Quick Actions → ColorMyFolder. The same item is also under Services.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Actions → ColorMyFolder. The same item is also under Services."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Szybkie czynności → ColorMyFolder. Ta sama pozycja jest też w Usługach."
+          }
+        }
+      }
+    },
+    "The window opens with the folders you picked.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The window opens with the folders you picked."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okno otwiera się z wybranymi folderami."
+          }
+        }
+      }
+    },
+    "The app runs quietly in the background and starts at login, so the paper sheet in a colored folder appears as soon as you put something in it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The app runs quietly in the background and starts at login, so the paper sheet in a colored folder appears as soon as you put something in it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Program działa po cichu w tle i startuje przy logowaniu, więc kartka w pokolorowanym folderze pojawia się, gdy tylko coś do niego włożysz."
+          }
+        }
+      }
+    },
+    "Pick a color": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a color"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz kolor"
+          }
+        }
+      }
+    },
+    "Click one of your saved colors, or pick any color you like.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click one of your saved colors, or pick any color you like."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kliknij jeden z zapisanych kolorów albo wybierz dowolny inny."
+          }
+        }
+      }
+    },
+    "The folder that gets the color — or how many, when you picked several.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The folder that gets the color — or how many, when you picked several."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder, który dostanie kolor — albo ile ich jest, gdy wybrałeś kilka."
+          }
+        }
+      }
+    },
+    "Your saved colors. One click colors the folder and closes the window.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your saved colors. One click colors the folder and closes the window."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twoje zapisane kolory. Jedno kliknięcie koloruje folder i zamyka okno."
+          }
+        }
+      }
+    },
+    "Other Color opens the system color picker; Color Folder applies it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other Color opens the system color picker; Color Folder applies it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inny kolor otwiera systemowy wybór koloru; Pokoloruj go nakłada."
+          }
+        }
+      }
+    },
+    "Besides plain colors there are black, white and a metallic chrome. The icon keeps the macOS folder look: the same gradient and shading as Finder's own folders.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Besides plain colors there are black, white and a metallic chrome. The icon keeps the macOS folder look: the same gradient and shading as Finder's own folders."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oprócz zwykłych kolorów są czarny, biały i metaliczny chrom. Ikona zachowuje wygląd folderu macOS: ten sam gradient i cieniowanie co foldery Findera."
+          }
+        }
+      }
+    },
+    "Save your colors": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save your colors"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zapisz swoje kolory"
+          }
+        }
+      }
+    },
+    "Keep the colors you use often, so they are one click away next time.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the colors you use often, so they are one click away next time."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zachowaj kolory, których używasz często — następnym razem są o jedno kliknięcie."
+          }
+        }
+      }
+    },
+    "Save Color adds the current color to your saved colors.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Color adds the current color to your saved colors."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zapisz kolor dodaje bieżący kolor do zapisanych."
+          }
+        }
+      }
+    },
+    "Right-click a saved color → Delete Color removes it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right-click a saved color → Delete Color removes it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prawy klik na zapisanym kolorze → Usuń kolor usuwa go."
+          }
+        }
+      }
+    },
+    "The window can be resized; it remembers its size and place, and when you have many saved colors, they scroll.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The window can be resized; it remembers its size and place, and when you have many saved colors, they scroll."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okno można powiększać; pamięta swój rozmiar i miejsce, a gdy zapisanych kolorów jest dużo, przewijają się."
+          }
+        }
+      }
+    },
+    "Back to the macOS look": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back to the macOS look"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Powrót do wyglądu macOS"
+          }
+        }
+      }
+    },
+    "Restore System Look gives the folder its normal icon back.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore System Look gives the folder its normal icon back."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Przywróć systemowy oddaje folderowi zwykłą ikonę."
+          }
+        }
+      }
+    },
+    "Restore System Look, next to Choose Other Folders….": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore System Look, next to Choose Other Folders…."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Przywróć systemowy — obok Wybierz inne foldery…."
+          }
+        }
+      }
+    },
+    "If a folder has a custom icon ColorMyFolder did not set, the app asks before removing it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If a folder has a custom icon ColorMyFolder did not set, the app asks before removing it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeśli folder ma własną ikonę, której nie ustawił ColorMyFolder, program zapyta przed jej usunięciem."
+          }
+        }
+      }
+    },
+    "A custom icon you pasted yourself in Get Info cannot be brought back once it is replaced, so ColorMyFolder always asks first — when coloring, too.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A custom icon you pasted yourself in Get Info cannot be brought back once it is replaced, so ColorMyFolder always asks first — when coloring, too."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Własnej ikony wklejonej w oknie Pokaż info nie da się przywrócić po zastąpieniu, dlatego ColorMyFolder zawsze najpierw pyta — także przy kolorowaniu."
+          }
+        }
+      }
+    },
+    "Without Finder": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Without Finder"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bez Findera"
+          }
+        }
+      }
+    },
+    "Open ColorMyFolder from Applications or Spotlight, and choose the folders in its window.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open ColorMyFolder from Applications or Spotlight, and choose the folders in its window."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otwórz ColorMyFolder z Aplikacji albo Spotlightu i wybierz foldery w jego oknie."
+          }
+        }
+      }
+    },
+    "No folder chosen yet: the window says so.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No folder chosen yet: the window says so."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder jeszcze nie wybrany: okno to mówi."
+          }
+        }
+      }
+    },
+    "Choose Folders… opens a window to pick them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Folders… opens a window to pick them."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wybierz foldery… otwiera okno, w którym je wskażesz."
+          }
+        }
+      }
+    },
+    "Where the list lives": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Where the list lives"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gdzie leży lista"
+          }
+        }
+      }
+    },
+    "Your saved colors and colored folders are kept in a small list, in a place you choose.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your saved colors and colored folders are kept in a small list, in a place you choose."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zapisane kolory i pokolorowane foldery trzyma mała lista, w miejscu, które sam wybierasz."
+          }
+        }
+      }
+    },
+    "The gear in the corner of the window.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The gear in the corner of the window."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zębatka w rogu okna."
+          }
+        }
+      }
+    },
+    "List location: where the list is kept; Change… moves it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "List location: where the list is kept; Change… moves it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miejsce listy: gdzie leży lista; Zmień… ją przenosi."
+          }
+        }
+      }
+    },
+    "Updates: a check once a month, or Check Now.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates: a check once a month, or Check Now."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktualizacje: sprawdzanie raz w miesiącu albo Sprawdź teraz."
+          }
+        }
+      }
+    },
+    "The list lives in a hidden .ColorMyFolder folder inside the place you choose. Choose a folder you sync between your Macs, and both will have the same colors.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The list lives in a hidden .ColorMyFolder folder inside the place you choose. Choose a folder you sync between your Macs, and both will have the same colors."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista leży w ukrytym folderze .ColorMyFolder w wybranym miejscu. Wybierz folder synchronizowany między Twoimi Macami, a oba będą miały te same kolory."
+          }
+        }
+      }
+    },
+    "Good to know": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good to know"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dobrze wiedzieć"
+          }
+        }
+      }
+    },
+    "The same colors on every Mac": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The same colors on every Mac"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te same kolory na każdym Macu"
+          }
+        }
+      }
+    },
+    "Keep the list in a folder you sync, such as iCloud Drive. Another Mac using the same place sees the same colors.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the list in a folder you sync, such as iCloud Drive. Another Mac using the same place sees the same colors."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trzymaj listę w synchronizowanym folderze, np. na iCloud Drive. Drugi Mac korzystający z tego miejsca widzi te same kolory."
+          }
+        }
+      }
+    },
+    "A real folder look": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A real folder look"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wygląd prawdziwego folderu"
+          }
+        }
+      }
+    },
+    "The icon is built from the same parts Finder uses, with the paper sheet that appears only when the folder has something in it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The icon is built from the same parts Finder uses, with the paper sheet that appears only when the folder has something in it."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ikona powstaje z tych samych części, których używa Finder, z kartką, która pojawia się tylko wtedy, gdy w folderze coś jest."
+          }
+        }
+      }
+    },
+    "Your own icons are safe": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your own icons are safe"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Twoje własne ikony są bezpieczne"
+          }
+        }
+      }
+    },
+    "ColorMyFolder never replaces an icon it did not set without asking you first.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder never replaces an icon it did not set without asking you first."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder nigdy nie zastąpi ikony, której sam nie ustawił, bez zapytania."
+          }
+        }
+      }
+    },
+    "Language": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Język"
+          }
+        }
+      }
+    },
+    "ColorMyFolder speaks English and Polish and follows the language of your system.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder speaks English and Polish and follows the language of your system."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ColorMyFolder mówi po polsku i po angielsku, zgodnie z językiem systemu."
+          }
+        }
+      }
+    },
+    "More": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Więcej"
+          }
+        }
+      }
+    },
+    "Less": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Less"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mniej"
+          }
+        }
+      }
+    },
+    "Native macOS software, built to a single pattern.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Native macOS software, built to a single pattern."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Natywne programy dla macOS, budowane według jednego wzoru."
+          }
+        }
+      }
+    },
+    "Open": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otwórz"
+          }
+        }
+      }
+    },
+    "Get Info": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Info"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pokaż info"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zmień nazwę"
+          }
+        }
+      }
+    },
+    "Quick Actions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Actions"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Szybkie czynności"
+          }
+        }
+      }
+    },
+    "Services": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Services"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usługi"
+          }
+        }
+      }
+    },
+    "Projects": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projects"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projekty"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

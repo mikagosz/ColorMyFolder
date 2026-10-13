@@ -10,8 +10,6 @@ struct PickerView: View {
     let listUnreadable: Bool
     @State private var custom: Color = .pink
     @State private var showSettings = false
-    @ObservedObject private var updates = Updates.shared
-    @AppStorage(Setting.checkUpdates) private var checkUpdates = true
 
     let onPick: ([URL], RGB) -> Void
     let onSave: (RGB) -> Void
@@ -19,6 +17,8 @@ struct PickerView: View {
     let onRestore: ([URL]) -> Void
     let onChooseFolders: () -> [URL]
     let onChangeStore: () -> String?
+    /// Opens the Help window.
+    var onHelp: () -> Void = {}
 
     private var title: String {
         switch folders.count {
@@ -42,7 +42,16 @@ struct PickerView: View {
                 }
                 .buttonStyle(.borderless)
                 .help("Settings")
-                .popover(isPresented: $showSettings, arrowEdge: .bottom) { settings }
+                .popover(isPresented: $showSettings, arrowEdge: .bottom) {
+                    PickerSettings(storePath: $storePath, shown: $showSettings, onChangeStore: onChangeStore)
+                }
+                Button {
+                    onHelp()
+                } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .buttonStyle(.borderless)
+                .help("Help")
             }
 
             if let problem = listProblem {
@@ -148,10 +157,19 @@ struct PickerView: View {
         .overlay(shape.strokeBorder(.primary.opacity(0.15)))
         .frame(width: 24, height: 24)
     }
+}
 
-    private var settings: some View {
+/// The gear's popover: where the list is kept, and updates. A view of its own, so Help can draw it too.
+struct PickerSettings: View {
+    @Binding var storePath: String
+    @Binding var shown: Bool
+    let onChangeStore: () -> String?
+    @ObservedObject private var updates = Updates.shared
+    @AppStorage(Setting.checkUpdates) private var checkUpdates = true
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("ColorMyFolder · \(Self.version)").font(.caption).foregroundStyle(.secondary)
+            Text("ColorMyFolder · \(PickerView.version)").font(.caption).foregroundStyle(.secondary)
             Text("List location").font(.headline)
             Text(storePath.isEmpty ? String(localized: "Not set") : storePath)
                 .font(.callout).foregroundStyle(.secondary)
@@ -161,7 +179,7 @@ struct PickerView: View {
             Button("Change…") {
                 if let path = onChangeStore() {
                     storePath = path
-                    showSettings = false
+                    shown = false
                 }
             }
 
@@ -174,7 +192,7 @@ struct PickerView: View {
                 Text(lastCheckText).font(.callout).foregroundStyle(.secondary)
                 Spacer()
                 Button("Check Now") {
-                    showSettings = false
+                    shown = false
                     Task { await updates.check(manually: true) }
                 }
             }

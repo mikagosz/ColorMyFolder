@@ -64,6 +64,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         colorizer.refreshAll()
         rewatch()
 
+        // `--show-help`: the Help window right away — for a look after changes, without finding the button.
+        if CommandLine.arguments.contains("--show-help") {
+            DispatchQueue.main.async { HelpWindow.shared.show() }
+            return
+        }
+
         // Started from the app icon (not at login, not from Finder with folders): open the window.
         if launch == .normal {
             DispatchQueue.main.async { [weak self] in
@@ -126,7 +132,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 // The list in the new place may hold other colors — rebuild the window with them.
                 DispatchQueue.main.async { self.showPicker(for: urls) }
                 return self.store.directory?.path
-            })
+            },
+            onHelp: { HelpWindow.shared.show() })
         let panel = self.panel ?? makePanel(colors: store.data.palette.count)
         // A fresh identity each time: the window's state starts from these folders and colors.
         (panel.contentViewController as? NSHostingController<AnyView>)?.rootView = AnyView(view.id(UUID()))
